@@ -43,8 +43,9 @@ class Plane(object):
         """
         if len(dot) == 2:
             return dot
-        return dot -  self.norm * (np.dot(dot, self.norm) + self.d) / (
-            np.dot(self.norm, self.norm))
+        return dot - self.norm * (np.dot(dot, self.norm) + self.d) / (
+            np.dot(self.norm, self.norm)
+        )
 
     def dist(self, dot):
         return dist_plane_dot(self, dot)
@@ -137,19 +138,13 @@ def dist_polygon_dot(points, dot):
         slcr = slice(None)
     else:
         raise RuntimeError("Only 2D or 3D supported!")
-        
+
     wn = winding_number([p[slcr] for p in points], plane.project(dot)[slcr])
     if wn == 0:
-        print("Outside")
-        print([
-                dist_line_segment_dot([points[i - 1], points[i]], dot)
-                for i in range(len(points))
-            ]
-              )
-        return np.min([
+        return np.min(
+            [
                 dist_line_segment_dot([points[i - 1], points[i]], dot)
                 for i in range(len(points))
             ]
         )
-    print("inside")
     return plane.dist(dot)
