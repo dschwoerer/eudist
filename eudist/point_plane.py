@@ -116,19 +116,32 @@ def winding_number(points, dot):
     return wn
 
 
-def dist_polygon_dot(points, dot):
+def is_planar(points, *, rtol=1e-3, atol=1e-8):
+    # 3 points are alwys in a plane
+    if len(points) < 4:
+        return True
+    # 2 Dimensions are always in a plane
+    if len(points[0]) < 3:
+        return True
+    scale = dist_dot_dot(points[0], points[1]) + dist_dot_dot(points[0], points[2])
+    scale /= 2
+    plane = Plane(p0=points[0], p1=points[1], p2=points[2])
+    for i in range(3, len(points)):
+        if plane.dist(points[i]) > scale * 1e-3:
+            return False
+    return True
+
+def dist_polygon_dot(points, dot, check_planar=True):
     if len(points) == 1:
         return dist_dot_dot(points[0], dot)
     elif len(points) == 2:
         return dist_line_segment_dot(points, dot)
     plane = Plane(p0=points[0], p1=points[1], p2=points[2])
-    if len(points) > 3 and len(dot) > 2:
-        # get an estimate of the length scales involved
-        scale = dist_dot_dot(points[0], points[1]) + dist_dot_dot(points[0], points[2])
-        scale /= 2
-        for i in range(3, len(points)):
-            if plane.dist(points[i]) > scale * 1e-3:
-                raise RuntimeError(f"Point {i} of polygon are not in a plane!")
+    if check_planar:
+        if len(points) > 3 and len(dot) > 2:
+            # get an estimate of the length scales involved
+            if not is_planar(points, atol=0, rtol=1e-3):
+                raise RuntimeError(f"Point of polygon are not in a plane!")
 
     # Simple projection onto 2D-plane. Drop main component of orthogonal vector
     if len(dot) == 3:
