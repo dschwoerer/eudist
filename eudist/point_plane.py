@@ -41,13 +41,18 @@ class Plane(object):
         """
         Project a dot onto this plane
         """
-        pass
+        if len(dot) == 2:
+            return dot
+        return dot -  self.norm * (np.dot(dot, self.norm) + self.d) / (
+            np.dot(self.norm, self.norm))
 
     def dist(self, dot):
         return dist_plane_dot(self, dot)
 
 
 def dist_plane_dot(plane, dot):
+    if len(dot) == 2:
+        return 0
     return np.abs(np.dot(dot, plane.norm) + plane.d) / np.sqrt(
         np.dot(plane.norm, plane.norm)
     )
@@ -93,7 +98,6 @@ def winding_number(points, dot):
     def is_left(p0, p1, p2):
         d1 = p1 - p0
         d2 = p2 - p0
-        # TODO: Return int of it?
         return (d1[0] * d2[1]) - (d2[0] * d1[1])
 
     # Winding number counter
@@ -111,31 +115,41 @@ def winding_number(points, dot):
     return wn
 
 
-def dist_polygone_dot(points, dot):
+def dist_polygon_dot(points, dot):
     if len(points) == 1:
         return dist_dot_dot(points[0], dot)
     elif len(points) == 2:
         return dist_line_segment_dot(points, dot)
     plane = Plane(p0=points[0], p1=points[1], p2=points[2])
-    if len(points) > 3:
+    if len(points) > 3 and len(dot) > 2:
         # get an estimate of the length scales involved
-        scale = np.mean(
-            dist_dot_dot(points[0], points[1]), dist_dot_dot(points[0], points[2])
-        )
+        scale = dist_dot_dot(points[0], points[1]) + dist_dot_dot(points[0], points[2])
+        scale /= 2
         for i in range(3, len(points)):
             if plane.dist(points[i]) > scale * 1e-3:
                 raise RuntimeError(f"Point {i} of polygon are not in a plane!")
 
     # Simple projection onto 2D-plane. Drop main component of orthogonal vector
-    slcr = [0, 1, 2]
-    slcr.pop(np.argmax(np.abs(plane.norm)))
-
-    wn = winding_number([p[slcr] for p in points], dot[slcr])
+    if len(dot) == 3:
+        slcr = [0, 1, 2]
+        slcr.pop(np.argmax(np.abs(plane.norm)))
+    elif len(dot) == 2:
+        slcr = slice(None)
+    else:
+        raise RuntimeError("Only 2D or 3D supported!")
+        
+    wn = winding_number([p[slcr] for p in points], plane.project(dot)[slcr])
     if wn == 0:
-        return np.min(
-            [
-                dist_line_segment_dot(points[i - 1 : i + 1], dot)
+        print("Outside")
+        print([
+                dist_line_segment_dot([points[i - 1], points[i]], dot)
+                for i in range(len(points))
+            ]
+              )
+        return np.min([
+                dist_line_segment_dot([points[i - 1], points[i]], dot)
                 for i in range(len(points))
             ]
         )
+    print("inside")
     return plane.dist(dot)

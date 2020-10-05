@@ -140,3 +140,52 @@ def test_winding_number():
 
         wn = winding_number(pnts, dot)
         assert wn == expected
+
+def test_polygone_dot():
+    for i in range(100):
+        n = 3
+        # make a square
+        pnts = np.zeros((4, n))
+        pnts[1, 0] = 1
+        pnts[2, 0] = 1
+        pnts[2, 1] = 1
+        pnts[3, 1] = 1
+        pnts[:,:2]-=.5
+        # A random dot
+        dot = np.random.normal(scale=3, size=n)
+        #dot = np.array([.4,.2,1])
+        # Calculate distance
+        dist = np.abs(dot)
+        for i in range(2):
+            dist[i] -= .5
+            if dist[i] < 0:
+                dist[i] = 0
+        dist = np.sqrt(np.dot(dist,dist))
+        # Add some offset
+        offset = np.random.normal(scale=3, size=n)
+        pnts += offset
+        dot += offset
+
+        # Rotate and scale
+        rot = random_rotation(n)
+        scal = np.random.lognormal()
+        dist *= scal
+        trans = rot * scal
+        pnts = pnts @ trans
+        dot = dot @ trans
+
+        dist_calc = dist_polygon_dot(pnts, dot)
+        print(dist_calc)
+        print(pnts)
+        print(dot)
+        if not np.isclose(dist, dist_calc):
+            import matplotlib.pyplot as plt
+            for i in range(n):
+                for j in range(i):
+                    plt.figure()
+                    plt.plot(pnts[:,i], pnts[:,j],"-o")
+                    plt.plot(dot[i], dot[j], "x")
+            plt.show()
+            raise AssertionError
+if __name__ == "__main__":
+    test_polygone_dot()
