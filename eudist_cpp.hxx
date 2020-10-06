@@ -7,7 +7,7 @@ public:
   double dist(const double *dot);
   const double *project(const double *dot);
   double *norm;
-
+  void info();
 private:
   // double * p0, * p1, * p2;
   const int dim;

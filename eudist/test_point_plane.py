@@ -74,24 +74,64 @@ def random_rotation(dims):
 
 def test_plane_point3():
     for i in range(100):
+        dist = 3
         ps = [
             np.array([0.0, 0, 0]),
             np.array([1.0, 0, 0]),
             np.array([0.0, 1, 0]),
-            np.array([0.0, 0, 3]),
+            np.array([0.0, 0, dist]),
         ]
 
         ps[3][0:2] = np.random.normal(size=2)
         off1 = np.random.normal(scale=3, size=3)
         off2 = np.random.normal(scale=3, size=3)
         trans = random_rotation(dims=3)
+        scal = np.random.lognormal()
+        dist *= scal
         for p in ps:
+            p *= scal
             p += off1
             p = np.matmul(trans, p)
             p += off2
         pl = Plane(p0=ps[0], p1=ps[1], p2=ps[2])
-        assert np.isclose(plane_dot(pl, ps[3]), 3)
-        assert np.isclose(pl.dist(ps[3]), 3)
+        assert np.isclose(plane_dot(pl, ps[3]), dist)
+        assert np.isclose(pl.dist(ps[3]), dist)
+
+
+def test_plane_point4():
+    for i in range(100):
+        ps = np.random.random((4, 3))
+        ps[:3, 0] = 0
+        dist = ps[3, 0]
+        ps = [p for p in ps]
+        off1 = np.random.normal(scale=3, size=3)
+        off2 = np.random.normal(scale=3, size=3)
+        trans = random_rotation(dims=3)
+        scal = np.random.lognormal()
+        dist *= scal
+        for p in ps:
+            p *= scal
+            p += off1
+            p = np.matmul(trans, p)
+            p += off2
+        pl = Plane(p0=ps[0], p1=ps[1], p2=ps[2])
+        assert np.isclose(plane_dot(pl, ps[3]), dist)
+        assert np.isclose(pl.dist(ps[3]), dist)
+
+
+def test_plane_point5():
+    ps = np.array(
+        [
+            [5.45458, 0.0, -0.374516],
+            [5.47951, 0.0, -0.383842],
+            [5.48446459, 0.01914447, -0.383323],
+            [5.45953074, 0.01905743, -0.374144],
+        ]
+    )
+    # ps = [p for p in ps]
+    pl = Plane(p0=ps[0], p1=ps[1], p2=ps[2])
+    assert pl.dist(ps[3]) < 1
+    assert Plane(p0=ps[0], p1=ps[1], p2=ps[2]).dist(ps[3]) < 0.01
 
 
 def test_dot_dot():
@@ -189,3 +229,13 @@ def test_polygone_dot():
                     plt.plot(dot[i], dot[j], "x")
             plt.show()
             raise AssertionError
+
+
+if __name__ == "__main__":
+    test_plane_point1()
+    test_plane_point2()
+    test_plane_point3()
+    test_plane_point4()
+    test_dot_dot()
+    test_winding_number()
+    test_polygone_dot()
