@@ -1,7 +1,7 @@
 from setuptools import Extension, setup
 from Cython.Build import cythonize
 
-sourcefiles = ['eudist/point_plane.py']
+sourcefiles = ["eudist/__init__.pyx"]
 #, 'helper.c', 'another_helper.c']
 
 extensions = [Extension("eudist", sourcefiles)]

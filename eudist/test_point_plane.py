@@ -1,4 +1,4 @@
-from .point_plane import *
+from eudist import *
 
 
 def test_plane_point1():
@@ -142,7 +142,7 @@ def test_winding_number():
 
 
 def test_polygone_dot():
-    for i in range(100):
+    for i in range(1000):
         n = 3
         # make a square
         pnts = np.zeros((4, n))

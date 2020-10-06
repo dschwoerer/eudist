@@ -18,10 +18,11 @@ Library for calculating euclidean distances.
 
 """
 
-print("not compiled")
+#print("not compiled")
 
 import numpy as np
-
+cimport numpy as np
+#from libcpp cimport bool
 
 class Plane(object):
     def __init__(self, *, p0, p1=None, p2=None):
@@ -69,28 +70,28 @@ def dot_dot(p0, p1):
     return np.sqrt(np.dot(dist, dist))
 
 
-def line_segment_dot(line, dot):
+def line_segment_dot(np.ndarray line, np.ndarray dot):
     """
     Calculate the distance between the line segment defined by two
     points in line and a dot. 
     """
-    v = line[1] - line[0]
-    w = dot - line[0]
+    cdef np.ndarray v = line[1] - line[0]
+    cdef np.ndarray w = dot - line[0]
 
-    c1 = np.dot(w, v)
+    cdef double c1 = np.dot(w, v)
     if c1 <= 0:
         return dot_dot(dot, line[0])
 
-    c2 = np.dot(v, v)
+    cdef double c2 = np.dot(v, v)
     if c2 <= c1:
         return dot_dot(dot, line[1])
 
-    p = c1 / c2
-    proj = line[0] + p * v
+    cdef double p = c1 / c2
+    cdef np.ndarray proj = line[0] + p * v
     return dot_dot(proj, dot)
 
 
-def _winding_number(points, dot):
+def _winding_number(np.ndarray points, np.ndarray dot):
     """
     Calculate winding number.
     
@@ -98,13 +99,13 @@ def _winding_number(points, dot):
     by softSurfer and Dan Sunday
     """
 
-    def is_left(p0, p1, p2):
-        d1 = p1 - p0
-        d2 = p2 - p0
+    def is_left(np.ndarray p0, np.ndarray p1, np.ndarray p2):
+        cdef np.ndarray d1 = p1 - p0
+        cdef np.ndarray d2 = p2 - p0
         return (d1[0] * d2[1]) - (d2[0] * d1[1])
 
     # Winding number counter
-    wn = 0
+    cdef int wn = 0
     for i in range(len(points)):
         # Use -1 to get periodic boundary conditions
         if points[i - 1][1] <= dot[1]:
@@ -133,7 +134,7 @@ def _is_planar(points, *, rtol=1e-3, atol=1e-8):
             return False
     return True
 
-def polygon_dot(points, dot, check_planar=True):
+def polygon_dot(np.ndarray points,np.ndarray  dot, check_planar=True):
     if len(points) == 1:
         return dot_dot(points[0], dot)
     elif len(points) == 2:
@@ -154,11 +155,11 @@ def polygon_dot(points, dot, check_planar=True):
     else:
         raise RuntimeError("Only 2D or 3D supported!")
 
-    wn = _winding_number([p[slcr] for p in points], plane.project(dot)[slcr])
+    wn = _winding_number(np.array([p[slcr] for p in points]), plane.project(dot)[slcr])
     if wn == 0:
         return np.min(
             [
-                line_segment_dot([points[i - 1], points[i]], dot)
+                line_segment_dot(np.array([points[i - 1], points[i]]), dot)
                 for i in range(len(points))
             ]
         )
