@@ -1,4 +1,5 @@
 from eudist import *
+from eudist import _winding_number
 
 
 def test_plane_point1():
@@ -6,11 +7,11 @@ def test_plane_point1():
     p1 = np.array([1, 0, 0])
     p2 = np.array([0, 1, 0])
     pl = Plane(p0=p0, p1=p1, p2=p2)
-    assert dist_plane_dot(pl, np.array([0, 0, 1])) == 1
-    assert dist_plane_dot(pl, np.array([0, 1, 1])) == 1
-    assert dist_plane_dot(pl, np.array([1, 0, 1])) == 1
-    assert dist_plane_dot(pl, np.array([0, 0, 2])) == 2
-    assert dist_plane_dot(pl, np.array([0, 0, 0])) == 0
+    assert plane_dot(pl, np.array([0, 0, 1])) == 1
+    assert plane_dot(pl, np.array([0, 1, 1])) == 1
+    assert plane_dot(pl, np.array([1, 0, 1])) == 1
+    assert plane_dot(pl, np.array([0, 0, 2])) == 2
+    assert plane_dot(pl, np.array([0, 0, 0])) == 0
 
 
 def test_plane_point2():
@@ -18,11 +19,11 @@ def test_plane_point2():
     p1 = np.array([1, 0, 0])
     p2 = np.array([0, 1, 0])
     pl = Plane(p0=p0, p1=p1, p2=p2)
-    assert dist_plane_dot(pl, np.array([0, 0, 1])) == 0
+    assert plane_dot(pl, np.array([0, 0, 1])) == 0
 
-    assert np.isclose(dist_plane_dot(pl, np.array([0, 1, 1])), np.sqrt(1 / 3))
-    assert np.isclose(dist_plane_dot(pl, np.array([1, 0, 1])), np.sqrt(1 / 3))
-    assert np.isclose(dist_plane_dot(pl, np.array([0, 0, 0])), np.sqrt(1 / 3))
+    assert np.isclose(plane_dot(pl, np.array([0, 1, 1])), np.sqrt(1 / 3))
+    assert np.isclose(plane_dot(pl, np.array([1, 0, 1])), np.sqrt(1 / 3))
+    assert np.isclose(plane_dot(pl, np.array([0, 0, 0])), np.sqrt(1 / 3))
 
 
 def random_rotation(dims):
@@ -87,15 +88,15 @@ def test_plane_point3():
             p = np.matmul(trans, p)
             p += off2
         pl = Plane(p0=ps[0], p1=ps[1], p2=ps[2])
-        assert np.isclose(dist_plane_dot(pl, ps[3]), 1)
+        assert np.isclose(plane_dot(pl, ps[3]), 1)
 
 
-def test_dist_dot_dot():
+def test_dot_dot():
     for i in range(100):
         for n in [1, 2, 3, 5, 8]:
             p0 = np.random.normal(scale=3, size=n)
             p1 = np.random.normal(scale=3, size=n)
-            assert np.isclose(dist_dot_dot(p0, p1), np.sqrt(np.dot(p0 - p1, p0 - p1)))
+            assert np.isclose(dot_dot(p0, p1), np.sqrt(np.dot(p0 - p1, p0 - p1)))
     for i in range(100):
         n = 3
         rotate = random_rotation(n)
@@ -105,18 +106,18 @@ def test_dist_dot_dot():
         p1[0] = 2
         p0 = p0 @ rotate
         p1 = p1 @ rotate
-        assert np.isclose(dist_dot_dot(p0, p1), 1)
+        assert np.isclose(dot_dot(p0, p1), 1)
     p0 = np.array([1, 0, 0])
     p1 = np.array([2, 0, 0])
-    assert np.isclose(dist_dot_dot(p0, p1), 1)
+    assert np.isclose(dot_dot(p0, p1), 1)
     p1 = np.array([0, 0, 0])
-    assert np.isclose(dist_dot_dot(p0, p1), 1)
+    assert np.isclose(dot_dot(p0, p1), 1)
     p0 = np.array([1])
     p1 = np.array([2])
-    assert np.isclose(dist_dot_dot(p0, p1), 1)
+    assert np.isclose(dot_dot(p0, p1), 1)
     p0 = np.array([1, 1, 1])
     p1 = np.array([2, 2, 2])
-    assert np.isclose(dist_dot_dot(p0, p1), np.sqrt(3))
+    assert np.isclose(dot_dot(p0, p1), np.sqrt(3))
 
 
 def test_winding_number():
@@ -137,7 +138,7 @@ def test_winding_number():
         pnts = pnts @ trans
         dot = dot @ trans
 
-        wn = winding_number(pnts, dot)
+        wn = _winding_number(pnts, dot)
         assert wn == expected
 
 
@@ -174,8 +175,8 @@ def test_polygone_dot():
         pnts = pnts @ trans
         dot = dot @ trans
 
-        dist_calc = dist_polygon_dot(pnts, dot)
-        if not np.isclose(dist, dist_calc):
+        calc = polygon_dot(pnts, dot)
+        if not np.isclose(dist, calc):
             import matplotlib.pyplot as plt
 
             for i in range(n):
@@ -186,6 +187,3 @@ def test_polygone_dot():
             plt.show()
             raise AssertionError
 
-
-if __name__ == "__main__":
-    test_polygone_dot()
