@@ -6,4 +6,6 @@ sourcefiles = ["eudist.pyx", "eudist_cpp.cxx"]
 
 extensions = [Extension("eudist", sourcefiles)]
 
-setup(ext_modules=cythonize(extensions, language_level=3))
+setup(
+    name="eudist", version="0.1.0", ext_modules=cythonize(extensions, language_level=3)
+)

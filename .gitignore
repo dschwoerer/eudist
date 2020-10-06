@@ -7,3 +7,5 @@ __pycache__
 build/
 eudist*so
 /eudist.cpp
+/eudist.egg-info/
+/dist/

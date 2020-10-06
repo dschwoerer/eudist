@@ -2,17 +2,22 @@
 
 class Plane {
 public:
-  Plane(double *p0, double *p1, double *p2, int n);
+  Plane(const double *p0, const double *p1, const double *p2, int n);
   ~Plane();
-  double dist(double *dot);
+  double dist(const double *dot);
+  const double *project(const double *dot);
+  double *norm;
 
 private:
   // double * p0, * p1, * p2;
   const int dim;
-  double *norm;
   double d;
   double normsq;
   double normlen;
 };
 
-double dot_dot(double*, double*, int);
+double dot_dot(const double *, const double *, int);
+
+int winding_number(const double *, const double *, int);
+
+double polygon_dot(const double *, const double *, int, int, bool);

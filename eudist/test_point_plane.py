@@ -2,27 +2,30 @@ from eudist import *
 
 
 def test_plane_point1():
-    p0 = np.array([0, 0, 0])
-    p1 = np.array([1, 0, 0])
-    p2 = np.array([0, 1, 0])
+    p0 = np.array([0.0, 0, 0], dtype=float)
+    p1 = np.array([1.0, 0, 0], dtype=float)
+    p2 = np.array([0.0, 1, 0], dtype=float)
     pl = Plane(p0=p0, p1=p1, p2=p2)
-    assert plane_dot(pl, np.array([0, 0, 1])) == 1
-    assert plane_dot(pl, np.array([0, 1, 1])) == 1
-    assert plane_dot(pl, np.array([1, 0, 1])) == 1
-    assert plane_dot(pl, np.array([0, 0, 2])) == 2
-    assert plane_dot(pl, np.array([0, 0, 0])) == 0
+    for pnt, val in [
+        (np.array([0.0, 0, 1]), 1),
+        (np.array([0.0, 1, 1]), 1),
+        (np.array([1.0, 0, 1]), 1),
+        (np.array([0.0, 0, 2]), 2),
+        (np.array([0.0, 0, 0]), 0),
+    ]:
+        assert plane_dot(pl, pnt) == val
+        assert pl.dist(pnt) == val
 
 
 def test_plane_point2():
-    p0 = np.array([0, 0, 1])
-    p1 = np.array([1, 0, 0])
-    p2 = np.array([0, 1, 0])
+    p0 = np.array([0.0, 0, 1], dtype=float)
+    p1 = np.array([1.0, 0, 0], dtype=float)
+    p2 = np.array([0.0, 1, 0], dtype=float)
     pl = Plane(p0=p0, p1=p1, p2=p2)
-    assert plane_dot(pl, np.array([0, 0, 1])) == 0
-
-    assert np.isclose(plane_dot(pl, np.array([0, 1, 1])), np.sqrt(1 / 3))
-    assert np.isclose(plane_dot(pl, np.array([1, 0, 1])), np.sqrt(1 / 3))
-    assert np.isclose(plane_dot(pl, np.array([0, 0, 0])), np.sqrt(1 / 3))
+    assert plane_dot(pl, np.array([0.0, 0, 1])) == 0
+    assert np.isclose(plane_dot(pl, np.array([0.0, 1, 1])), np.sqrt(1 / 3))
+    assert np.isclose(plane_dot(pl, np.array([1.0, 0, 1])), np.sqrt(1 / 3))
+    assert np.isclose(plane_dot(pl, np.array([0.0, 0, 0])), np.sqrt(1 / 3))
 
 
 def random_rotation(dims):
@@ -75,7 +78,7 @@ def test_plane_point3():
             np.array([0.0, 0, 0]),
             np.array([1.0, 0, 0]),
             np.array([0.0, 1, 0]),
-            np.array([0.0, 0, 1]),
+            np.array([0.0, 0, 3]),
         ]
 
         ps[3][0:2] = np.random.normal(size=2)
@@ -87,7 +90,8 @@ def test_plane_point3():
             p = np.matmul(trans, p)
             p += off2
         pl = Plane(p0=ps[0], p1=ps[1], p2=ps[2])
-        assert np.isclose(plane_dot(pl, ps[3]), 1)
+        assert np.isclose(plane_dot(pl, ps[3]), 3)
+        assert np.isclose(pl.dist(ps[3]), 3)
 
 
 def test_dot_dot():
@@ -106,21 +110,20 @@ def test_dot_dot():
         p0 = p0 @ rotate
         p1 = p1 @ rotate
         assert np.isclose(dot_dot(p0, p1), 1)
-    p0 = np.array([1, 0, 0])
-    p1 = np.array([2, 0, 0])
+    p0 = np.array([1.0, 0, 0])
+    p1 = np.array([2.0, 0, 0])
     assert np.isclose(dot_dot(p0, p1), 1)
-    p1 = np.array([0, 0, 0])
+    p1 = np.array([0.0, 0, 0])
     assert np.isclose(dot_dot(p0, p1), 1)
-    p0 = np.array([1])
-    p1 = np.array([2])
+    p0 = np.array([1.0])
+    p1 = np.array([2.0])
     assert np.isclose(dot_dot(p0, p1), 1)
-    p0 = np.array([1, 1, 1])
-    p1 = np.array([2, 2, 2])
+    p0 = np.array([1.0, 1, 1])
+    p1 = np.array([2.0, 2, 2])
     assert np.isclose(dot_dot(p0, p1), np.sqrt(3))
 
 
 def test_winding_number():
-    from eudist import _winding_number
     for i in range(100):
         n = 2
         pnts = np.zeros((4, n))
@@ -138,7 +141,7 @@ def test_winding_number():
         pnts = pnts @ trans
         dot = dot @ trans
 
-        wn = _winding_number(pnts, dot)
+        wn = winding_number(pnts, dot)
         assert wn == expected
 
 

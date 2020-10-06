@@ -4,5 +4,9 @@ from libcpp cimport bool
 from libcpp.string cimport string
 
 cdef extern from "eudist_cpp.hxx":
-     cdef double dot_dot(double*, double*, int)
-
+    double dot_dot(double*, double*, int)
+    cppclass Plane:
+        Plane(double*, double*, double*, int)
+        double dist(double *)
+    int winding_number(double*, double*, int)
+    double polygon_dot(double*, double* , int, int, bool)
