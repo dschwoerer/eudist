@@ -1,5 +1,4 @@
 # distutils: language=c++
-# distutils: language_level=3
 # distutils: include_dirs = 
 # distutils: libraries = 
 # distutils: library_dirs = 
@@ -8,6 +7,10 @@
 
 cimport eudist_cpp as c
 cimport numpy as np
+import numpy as np
 
-def dot_dot(np.ndarray a, np.ndarray b):
-    return c.dot_dot(a,b,len(a))
+def dot_dot(np.ndarray[double,ndim=1] a, np.ndarray[double, ndim=1] b):
+    #assert a.shape == b.shape
+    #assert a.dtype == b.dtype == float
+    return c.dot_dot(&a[0],&b[0],len(a))
+

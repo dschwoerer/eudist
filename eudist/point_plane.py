@@ -131,6 +131,7 @@ def is_planar(points, *, rtol=1e-3, atol=1e-8):
             return False
     return True
 
+
 def dist_polygon_dot(points, dot, check_planar=True):
     if len(points) == 1:
         return dist_dot_dot(points[0], dot)

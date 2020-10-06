@@ -1,5 +1,4 @@
 from eudist import *
-from eudist import _winding_number
 
 
 def test_plane_point1():
@@ -121,6 +120,7 @@ def test_dot_dot():
 
 
 def test_winding_number():
+    from eudist import _winding_number
     for i in range(100):
         n = 2
         pnts = np.zeros((4, n))
@@ -186,4 +186,3 @@ def test_polygone_dot():
                     plt.plot(dot[i], dot[j], "x")
             plt.show()
             raise AssertionError
-
