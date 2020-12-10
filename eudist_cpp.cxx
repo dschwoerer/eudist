@@ -50,6 +50,13 @@ double Plane::dist(const double *dot) {
   return fabs(dot_prod(dot, norm, dim) + d) / normlen;
 }
 
+double Plane::signed_dist(const double *dot) {
+  if (dim == 2) {
+    return 0.;
+  }
+  return (dot_prod(dot, norm, dim) + d) / normlen;
+}
+
 void Plane::info(){
   printf("Dim: %d\n", dim);
   printf("Norm: %.4f %.4f %.4f\n",norm[0], norm[1], norm[2]);

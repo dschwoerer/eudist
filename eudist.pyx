@@ -16,6 +16,11 @@ def dot_dot(np.ndarray[double,ndim=1] a, np.ndarray[double, ndim=1] b):
 
 
 cdef class Plane:
+    """
+    Defines a plane.
+
+    The constructor takes 3 points
+    """
     cdef c.Plane * cobj
     def __cinit__(self, np.ndarray[double,ndim=1] p0, np.ndarray[double,ndim=1] p1, np.ndarray[double,ndim=1] p2):
         p0 = np.ascontiguousarray(p0)
@@ -35,6 +40,10 @@ cdef class Plane:
         dot = np.ascontiguousarray(dot)
         return self.cobj.dist(&dot[0])
 
+    def signed_dist(self, np.ndarray[double,ndim=1] dot):
+        dot = np.ascontiguousarray(dot)
+        return self.cobj.signed_dist(&dot[0])
+
     def info(self):
         self.cobj.info()
 
@@ -50,3 +59,4 @@ def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.polygon_dot(&pnts[0], &dot[0], len(points), len(dot), check_planar)
+
