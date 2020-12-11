@@ -42,6 +42,11 @@ def plane_dot(Plane pl, np.ndarray[double, ndim=1] dot):
     return pl.dist(dot)
 
 def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot):
+    """
+    Calculate the winding number between the 2-d surface spawened by the `points` and the `dot`.
+    A winding number of zero means the point is outside the surface.
+    If the conversions are slow, ensure the variables are already C-contigous.
+    """
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.winding_number(&pnts[0], &dot[0], len(points))
