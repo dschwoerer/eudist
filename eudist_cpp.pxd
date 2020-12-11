@@ -12,3 +12,7 @@ cdef extern from "eudist_cpp.hxx":
         void info()
     int winding_number(double*, double*, int)
     double polygon_dot(double*, double* , int, int, bool)
+
+    cppclass PolyMesh:
+        PolyMesh(double*, double*, int, int)
+        int find_cell(double *, int)

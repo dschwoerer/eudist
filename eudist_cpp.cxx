@@ -57,10 +57,10 @@ double Plane::signed_dist(const double *dot) {
   return (dot_prod(dot, norm, dim) + d) / normlen;
 }
 
-void Plane::info(){
+void Plane::info() {
   printf("Dim: %d\n", dim);
-  printf("Norm: %.4f %.4f %.4f\n",norm[0], norm[1], norm[2]);
-  printf("Distance: %.4f\n", d/normlen);
+  printf("Norm: %.4f %.4f %.4f\n", norm[0], norm[1], norm[2]);
+  printf("Distance: %.4f\n", d / normlen);
 }
 
 const double *Plane::project(const double *dot) {
@@ -213,4 +213,51 @@ double polygon_dot(const double *points, const double *dot, const int num_pnts,
     return min;
   }
   return plane.dist(dot);
+}
+
+PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
+    : nx(nx), ny(ny), datax(datax), datay(datay),
+      num_cells((nx - 1) * (ny - 1)) {
+  bounds = new double[num_cells * 2 * 4];
+  int pos = 0;
+  for (int i = 0; i < nx - 1; ++i) {
+    for (int j = 0; j < ny - 1; ++j) {
+      int iin = i * (ny-1) + j;
+      bounds[pos++] = datax[iin];
+      bounds[pos++] = datay[iin];
+      bounds[pos++] = datax[iin + 1];
+      bounds[pos++] = datay[iin + 1];
+      bounds[pos++] = datax[iin + ny];
+      bounds[pos++] = datay[iin + ny];
+      bounds[pos++] = datax[iin + ny-1];
+      bounds[pos++] = datay[iin + ny-1];
+    }
+  }
+  // assert(num_cells * 8 == pos);
+}
+
+PolyMesh::~PolyMesh(){
+  delete[] bounds;
+}
+
+int PolyMesh::find_cell(const double *dot, int guess) {
+  if (guess >= 0) {
+    for (int i = -1; i < 2; ++i) {
+      for (int j = -1; j < 2; ++j) {
+        int pos = guess + i + (ny -1) * j;
+        if (pos >= 0 and pos < num_cells) {
+          if (winding_number(bounds + pos * 8, dot, 4)) {
+            return pos;
+          }
+        }
+      }
+    }
+  }
+
+  for (int pos = 0; pos < num_cells; ++pos) {
+    if (winding_number(bounds + pos * 8, dot, 4)) {
+      return pos;
+    }
+  }
+  return -1;
 }
