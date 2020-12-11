@@ -57,10 +57,10 @@ double Plane::signed_dist(const double *dot) {
   return (dot_prod(dot, norm, dim) + d) / normlen;
 }
 
-void Plane::info(){
+void Plane::info() {
   printf("Dim: %d\n", dim);
-  printf("Norm: %.4f %.4f %.4f\n",norm[0], norm[1], norm[2]);
-  printf("Distance: %.4f\n", d/normlen);
+  printf("Norm: %.4f %.4f %.4f\n", norm[0], norm[1], norm[2]);
+  printf("Distance: %.4f\n", d / normlen);
 }
 
 const double *Plane::project(const double *dot) {
