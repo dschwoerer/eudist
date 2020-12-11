@@ -1,5 +1,18 @@
+#!/bin/bash
+set -e
+# needed sometimes to add include dir
+# We need the header files for numpy, which are (hopefully) somewhere
+# in the python directories.
+python_dirs=$($PY -c "import site; print('\n'.join(site.getsitepackages()))")
+numpyheader=$(for d in $python_dirs
+              do
+	          find $d|grep numpy/arrayobject.h
+	      done)
+inc_dirs="${numpyheader%/*/*}
+# $inc_dirs"
+cat <<EOF
 # distutils: language=c++
-# distutils: include_dirs =
+# distutils: include_dirs = $inc_dirs
 # distutils: libraries =
 # distutils: library_dirs =
 # distutils: sources = eudist_cpp.cxx
@@ -51,11 +64,6 @@ def plane_dot(Plane pl, np.ndarray[double, ndim=1] dot):
     return pl.dist(dot)
 
 def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot):
-    """
-    Calculate the winding number between the 2-d surface spawened by the `points` and the `dot`.
-    A winding number of zero means the point is outside the surface.
-    If the conversions are slow, ensure the variables are already C-contigous.
-    """
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.winding_number(&pnts[0], &dot[0], len(points))
@@ -65,3 +73,4 @@ def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot
     dot = np.ascontiguousarray(dot)
     return c.polygon_dot(&pnts[0], &dot[0], len(points), len(dot), check_planar)
 
+EOF
