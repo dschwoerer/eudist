@@ -96,3 +96,46 @@ def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.polygon_dot(&pnts[0], &dot[0], len(points), len(dot), check_planar)
+
+
+
+def det(a, b):
+    return a[0] * b[1] - a[1] * b[0]
+
+
+def vlen(a):
+    return np.sqrt(np.dot(a, a))
+
+
+def do_seg_seg_intersect(seq0, seq1):
+    """
+    Check if the two line segments intersect.
+    """
+    eps = 1e-16
+    v0 = seq0[1] - seq0[0]
+    v1 = seq1[1] - seq1[0]
+    p0 = seq0[0]
+    p1 = seq1[0]
+    dist = p1 - p0
+
+    det1 = det(v0, v1)
+    # check for co-linearity:
+    if abs(det1) < eps:
+        # Check for overlap? - not yet
+        # dist -= np.dot(dist, v0) / vlen(v0) / vlen(dist)
+        # print("colin", dist, det1)
+        return False
+
+    t0 = det(dist, v0) / det1
+
+    if t0 < -eps or t0 > 1 + eps:
+        print("t0", t0)
+        return False
+
+    t1 = det(dist, v1) / det1
+
+    if t1 < -eps or t1 > 1 + eps:
+        print("t1", t1)
+        return False
+
+    return True
