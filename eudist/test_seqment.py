@@ -1,4 +1,4 @@
-import eudist_py as eudist
+import eudist as eudist
 import numpy as np
 
 
@@ -84,6 +84,14 @@ def test_seq_seq3():
             b = np.array([[0.0, 0], [1, 0]])[::j]
             dotestseqseq(a, b, iter=10)
 
+
+# def test_parallel():
+#     a = np.array([[0.0, 0], [0, 1]])
+#     for i in range(10):
+#         b = a.copy()
+#         off = np.random.random(1) * 2
+#         b[:, 1] += off
+#         dotestseqseq(a, b, iter=10, expect=(off < 1))
 
 # def test_seq_seq4():
 #     a = np.array([[0.0, 0], [0, 1]])

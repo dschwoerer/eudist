@@ -222,17 +222,18 @@ PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
   int pos = 0;
   for (int i = 0; i < nx - 1; ++i) {
     for (int j = 0; j < ny - 1; ++j) {
-      int iin = i * (ny-1) + j;
+      int iin = i * ny + j;
       bounds[pos++] = datax[iin];
       bounds[pos++] = datay[iin];
       bounds[pos++] = datax[iin + 1];
       bounds[pos++] = datay[iin + 1];
+      bounds[pos++] = datax[iin + ny+1];
+      bounds[pos++] = datay[iin + ny+1];
       bounds[pos++] = datax[iin + ny];
       bounds[pos++] = datay[iin + ny];
-      bounds[pos++] = datax[iin + ny-1];
-      bounds[pos++] = datay[iin + ny-1];
     }
   }
+  printf("%d %d=%d\n",num_cells, num_cells*8, pos);
   // assert(num_cells * 8 == pos);
 }
 
