@@ -12,7 +12,6 @@ class Transform(object):
         self.scale = np.random.lognormal()
 
     def __call__(self, p):
-        # slc = tuple([slice(None)] + [None]*(len(p.shape)-1))
         # return p
         slc = slice(None), None
         shp = p.shape
@@ -27,22 +26,20 @@ class Transform(object):
 
 def test_polymesh_1():
     nx = 5
-    ny = 5
+    ny = 7
     x = np.arange(nx + 1)[:, None] * np.ones((nx + 1, ny + 1))
     y = np.arange(ny + 1)[None, :] * np.ones((nx + 1, ny + 1))
     mesh = np.array([x, y])  # .flatten(), y.flatten()])
-    print(mesh.shape)
     trans = Transform(2)
     mesh = trans(mesh)
     cx, cy = np.random.randint(nx), np.random.randint(ny)
-    cell = np.array([[cx, cy], [cx, cy + 1.0], [cx + 1, cy + 1], [cx + 1, cy]])
+    cell0 = np.array([[cx, cy], [cx, cy + 1.0], [cx + 1, cy + 1], [cx + 1, cy]]).T
     cellid = cx * ny + cy
-    cell = trans(cell)
-    a = cell[0]
-    b = cell[1] - a
-    c = cell[3] - a
-    d = cell[2] - a - b - c
-    print(mesh.shape)
+    cell = trans(cell0)
+    a = cell[:, 0]
+    b = cell[:, 1] - a
+    c = cell[:, 3] - a
+    d = cell[:, 2] - a - b - c
     meshx, meshy = mesh
     mesh = eudist.PolyMesh(meshx, meshy)
 
@@ -58,10 +55,8 @@ def test_polymesh_1():
 
             print(meshx.shape)
             data = ((x == cx) & (y == cy)).astype(int)
-            print(data)
             plt.pcolormesh(meshx, meshy, data)
             plt.scatter(pos[0], pos[1])
-            print(cell[:, 0])
-            plt.plot(cell[:, 0], cell[:, 1])
+            plt.plot(cell[0], cell[1])
             plt.show()
             raise
