@@ -7,5 +7,11 @@ sourcefiles = ["eudist.pyx", "eudist_cpp.cxx"]
 extensions = [Extension("eudist", sourcefiles)]
 
 setup(
-    name="eudist", version="0.1.1", ext_modules=cythonize(extensions, language_level=3)
+    name="eudist",
+    version="0.1.1",
+    ext_modules=cythonize(
+        extensions,
+        language_level=3,
+        compiler_directives=dict(binding=True, embedsignature=True),
+    ),
 )
