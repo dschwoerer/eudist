@@ -59,7 +59,7 @@ cdef class PolyMesh:
             if not datax.shape[i] == datay.shape[i]:
                 xs = datax.shape
                 ys = datay.shape
-                print(f"Data mismatch: ({xs[0]}, {xs[1]}) != ({ys[0]}, {ys[1]})")
+                raise ValueError(f"Data mismatch: ({xs[0]}, {xs[1]}) != ({ys[0]}, {ys[1]})")
         cdef np.ndarray[double, ndim=1, mode='c'] datax_ = np.ravel(datax, order='c')
         cdef np.ndarray[double, ndim=1, mode='c'] datay_ = np.ravel(datay, order='c')
         self.cobj = new c.PolyMesh(&datax_[0], &datay_[0], datax.shape[0], datay.shape[1])
@@ -129,13 +129,13 @@ def do_seg_seg_intersect(seq0, seq1):
     t0 = det(dist, v0) / det1
 
     if t0 < -eps or t0 > 1 + eps:
-        print("t0", t0)
+        # print("t0", t0)
         return False
 
     t1 = det(dist, v1) / det1
 
     if t1 < -eps or t1 > 1 + eps:
-        print("t1", t1)
+        # print("t1", t1)
         return False
 
     return True

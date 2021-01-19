@@ -233,7 +233,7 @@ PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
       bounds[pos++] = datay[iin + ny];
     }
   }
-  printf("%d %d=%d\n",num_cells, num_cells*8, pos);
+  // printf("%d %d=%d\n",num_cells, num_cells*8, pos);
   // assert(num_cells * 8 == pos);
 }
 
