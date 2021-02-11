@@ -93,6 +93,11 @@ def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] 
     return c.winding_number(&pnts[0], &dot[0], len(points))
 
 def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot, check_planar=False):
+    """
+    Calculate the distance between a polygon and a dot.
+
+    The polygon is assumed to be flat.
+    """
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.polygon_dot(&pnts[0], &dot[0], len(points), len(dot), check_planar)
