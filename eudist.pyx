@@ -1,5 +1,5 @@
 # distutils: language=c++
-# distutils: include_dirs = /u/dave/local/python3.9/lib/python3.9/site-packages/numpy/core/include
+# distutils: include_dirs =
 # distutils: libraries =
 # distutils: library_dirs =
 # distutils: sources = eudist_cpp.cxx
@@ -19,7 +19,7 @@ cdef class Plane:
     """
     Defines a plane.
 
-    The constructor takes 3 points
+    The constructor takes 3 points that are on the plane and span the plane.
     """
     cdef c.Plane * cobj
     def __cinit__(self, np.ndarray[double,ndim=1] p0, np.ndarray[double,ndim=1] p1, np.ndarray[double,ndim=1] p2):
@@ -84,13 +84,17 @@ def plane_dot(Plane pl, np.ndarray[double, ndim=1] dot):
 
 def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot):
     """
-    Calculate the winding number between the 2-d surface spawened by the `points` and the `dot`.
-    A winding number of zero means the point is outside the surface.
-    If the conversions are slow, ensure the variables are already C-contigous.
+    Calculate the winding number between the 2-d surface spawened by
+    the `points` and the `dot`.  A winding number of zero means the
+    point is outside the surface.
+
+    If the conversions are slow, ensure the variables are already
+    C-contigous.
     """
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.winding_number(&pnts[0], &dot[0], len(points))
+
 
 def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot, check_planar=False):
     """
