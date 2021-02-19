@@ -27,7 +27,7 @@ before_script:
 test:
   script:
     - python setup.py test
-    - pip install tox flake8 pytest # you can also use tox
+    - pip install tox flake8 pytest -r requirements.txt # you can also use tox
     - pytest
 
 run:
