@@ -28,6 +28,7 @@ test:
   script:
     - python setup.py test
     - pip install tox flake8 pytest -r requirements.txt # you can also use tox
+    - python setup.py install --user
     - pytest
 
 run:
