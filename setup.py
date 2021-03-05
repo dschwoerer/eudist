@@ -1,7 +1,11 @@
 from setuptools import Extension, setup
 
+incdir = ""
 try:
     from Cython.Build import cythonize
+    import numpy as np
+
+    incdir = np.get_include()
 except ImportError:
     # Ignore error, as otherwise setuptools doesn't know we need cython
     def cythonize(*args, **kwargs):
@@ -18,5 +22,6 @@ setup(
         extensions,
         language_level=3,
         compiler_directives=dict(binding=True, embedsignature=True),
+        include_dirs=[incdir],
     ),
 )
