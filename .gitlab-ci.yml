@@ -41,6 +41,8 @@ test:
 pipinstall:
   script:
     - pip install .
+    - python -c "import numpy"
+    - python -c "import eudist as e;print(e.Plane)"
     - pip install pytest
     - pytest
 run:
