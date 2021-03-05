@@ -14,7 +14,7 @@ except ImportError:
 
 sourcefiles = ["eudist.pyx", "eudist_cpp.cxx"]
 
-extensions = [Extension("eudist", sourcefiles)]
+extensions = [Extension("eudist", sourcefiles, include_dirs=[incdir])]
 
 setup(
     use_scm_version=True,
@@ -22,6 +22,5 @@ setup(
         extensions,
         language_level=3,
         compiler_directives=dict(binding=True, embedsignature=True),
-        include_dirs=[incdir],
     ),
 )
