@@ -28,7 +28,7 @@ test:
   script:
     - python setup.py test
     - pip install tox flake8 pytest -r requirements.txt # you can also use tox
-    - python setup.py install --user
+    - pip install .
     - ls -l
     - echo $PYTHONPATH
     - python -c "import site; print('\n'.join(site.getsitepackages()))"
