@@ -41,7 +41,8 @@ test:
 pipinstall:
   script:
     - pip install .
-    - python -m pytest
+    - pip install pytest
+    - pytest
 run:
   script:
     - pip install -r requirements.txt
