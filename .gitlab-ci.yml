@@ -29,7 +29,7 @@ test:
     - python setup.py test
     - pip install tox flake8 pytest -r requirements.txt
     - python3 setup.py build_ext --inplace
-    - python3 setup.py install --user
+    - python3 setup.py install
     - python -c "import site; print('\n'.join(site.getsitepackages()))"
     - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages/eudist* -d
     - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages/eudist*
