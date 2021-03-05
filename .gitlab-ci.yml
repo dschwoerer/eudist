@@ -32,6 +32,7 @@ test:
     - ls -l
     - echo $PYTHONPATH
     - python -c "import site; print('\n'.join(site.getsitepackages()))"
+    - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages
     - pytest
 
 run:
