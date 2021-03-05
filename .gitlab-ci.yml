@@ -30,13 +30,14 @@ test:
     - pip install tox flake8 pytest -r requirements.txt # you can also use tox
     - pip install .
     - ls -l
-    - echo $PYTHONPATH
     - python -c "import site; print('\n'.join(site.getsitepackages()))"
-    - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages
+    - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages/eudist* -d
+    - ls -l /builds/dave/eudist/venv/lib/python3.9/site-packages/eudist*
     - pytest
 
 run:
   script:
+    - pip -r requirements.txt
     - python setup.py bdist_wheel
     # an alternative approach is to install and run:
     - pip install dist/*
