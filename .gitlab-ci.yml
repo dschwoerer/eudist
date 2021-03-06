@@ -18,13 +18,13 @@ cache:
     - .cache/pip
     - venv/
 
-before_script:
-  - python -V  # Print out python version for debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
-
 test:
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+
   script:
     - pip install -r requirements.txt
     - python setup.py build_ext --inplace
@@ -39,22 +39,17 @@ test:
       - image: python:3.6
 
 pipinstall:
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
   script:
     - pip install .
     - python -c "import numpy"
     - python -c "import eudist as e;print(e.Plane)"
     - pip install pytest
     - pytest
-run:
-  script:
-    - pip install -r requirements.txt
-    - python setup.py bdist_wheel
-    # an alternative approach is to install and run:
-    - pip install dist/*
-    # run the command here
-  artifacts:
-    paths:
-      - dist/*.whl
 
 
 wheel/manylinux2014:
