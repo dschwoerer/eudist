@@ -18,6 +18,11 @@ cache:
     - .cache/pip
     - venv/
 
+stages:
+  - test
+  - build
+  - deploy
+
 test:
   stage: test
   before_script:
