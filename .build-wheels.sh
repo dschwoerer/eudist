@@ -37,5 +37,8 @@ for PYBIN in /opt/python/*/bin/; do
     fi
 done
 
-mkdir wheelhouse
-cp /io/wheelhouse/*whl wheelhouse
+ls -l wheelhouse || :
+mkdir -p wheelhouse
+ls -l wheelhouse
+cp /io/wheelhouse/*whl wheelhouse/
+ls -l wheelhouse
