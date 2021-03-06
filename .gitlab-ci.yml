@@ -29,19 +29,6 @@ test:
       - image: python:3.7
       - image: python:3.6
 
-pipinstall:
-  stage: test
-  before_script:
-    - python -V  # Print out python version for debugging
-  script:
-    - pip install cython
-    - pip install .
-    - python -c "import numpy"
-    - python -c "import eudist as e;print(e.Plane)"
-    - pip install pytest
-    - pytest
-
-
 wheel/manylinux2014:
   stage: build
   image: quay.io/pypa/manylinux2014_x86_64
