@@ -21,7 +21,7 @@ do
 done
 
 for whl in wheelhouse/*.whl; do
-    LD_LIBRARY_PATH=$(pwd)/../../../lib/ repair_wheel "$whl"
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/../../../lib/ repair_wheel "$whl"
 done
 
 ls -l /io/wheelhouse
