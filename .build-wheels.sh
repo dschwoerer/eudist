@@ -39,6 +39,7 @@ done
 
 ls -l wheelhouse || :
 mkdir -p wheelhouse
+rm -f wheelhouse/*whl
 ls -l wheelhouse
 cp /io/wheelhouse/*whl wheelhouse/
 ls -l wheelhouse
