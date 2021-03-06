@@ -34,6 +34,7 @@ pipinstall:
   before_script:
     - python -V  # Print out python version for debugging
   script:
+    - pip install cython
     - pip install .
     - python -c "import numpy"
     - python -c "import eudist as e;print(e.Plane)"
