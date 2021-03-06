@@ -65,6 +65,14 @@ wheel/manylinux2014:
     paths:
       - wheelhouse/*whl
 
+sdist:
+  image: python:latest
+  script:
+    python setup.py sdist
+  artifacts:
+    paths:
+      - dist/*.tar.*
+
 # pages:
 #   script:
 #     - pip install sphinx sphinx-rtd-theme
