@@ -9,3 +9,4 @@ eudist*so
 /eudist.cpp
 /eudist.egg-info/
 /dist/
+/.eggs/
