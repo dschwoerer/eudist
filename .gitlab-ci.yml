@@ -57,13 +57,13 @@
 #       - dist/*.whl
 
 
-manylinux2014:
+wheel/manylinux2014:
   image: quay.io/pypa/manylinux2014_x86_64
   script:
     - bash .build-wheels.sh manylinux2014_x86_64
   artifacts:
     paths:
-      - /io/wheelhouse/*whl
+      - wheelhouse/*whl
 
 # pages:
 #   script:
@@ -75,3 +75,18 @@ manylinux2014:
 #       - public
 #   only:
 #     - master
+
+
+
+deploy/pypi:
+  stage: deploy
+  image: python:slim
+  script:
+    # TWINE_USERNAME and TWINE_PASSWORD are provided by CI secret variables
+    - pip install twine
+    - twine upload --repository testpypi *.whl *.tar.*
+  needs:
+    - sdist
+    - wheel/manylinux2014
+  only:
+    - tags

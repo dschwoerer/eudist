@@ -36,3 +36,6 @@ for PYBIN in /opt/python/*/bin/; do
 	)
     fi
 done
+
+mkdir wheelhouse
+cp /io/wheelhouse/*whl wheelhouse
