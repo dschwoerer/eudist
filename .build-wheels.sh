@@ -13,7 +13,7 @@ function repair_wheel {
     fi
 }
 
-for PYBIN in /opt/python/*/bin;
+for PYBIN in /opt/python/cp3*/bin;
 do
     $PYBIN/pip install numpy cython
     PY=$PYBIN/python make
@@ -26,7 +26,7 @@ done
 
 ls -l /io/wheelhouse
 
-for PYBIN in /opt/python/*/bin/; do
+for PYBIN in /opt/python/cp3*/bin/; do
     "${PYBIN}/pip" install $NAME --no-index -f /io/wheelhouse
     if test -e "${PYBIN}/nosetests"
     then

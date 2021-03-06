@@ -19,6 +19,7 @@ cache:
     - venv/
 
 test:
+  stage: test
   before_script:
     - python -V  # Print out python version for debugging
     - pip install virtualenv
@@ -39,6 +40,7 @@ test:
       - image: python:3.6
 
 pipinstall:
+  stage: test
   before_script:
     - python -V  # Print out python version for debugging
     - pip install virtualenv
@@ -53,6 +55,7 @@ pipinstall:
 
 
 wheel/manylinux2014:
+  stage: build
   image: quay.io/pypa/manylinux2014_x86_64
   script:
     - bash .build-wheels.sh manylinux2014_x86_64
@@ -61,6 +64,7 @@ wheel/manylinux2014:
       - wheelhouse/*whl
 
 wheel/manylinux1_64:
+  stage: build
   image: quay.io/pypa/manylinux1_x86_64
   script:
     - bash .build-wheels.sh manylinux1_x86_64
@@ -69,6 +73,7 @@ wheel/manylinux1_64:
       - wheelhouse/*whl
 
 wheel/manylinux1_32:
+  stage: build
   image: quay.io/pypa/manylinux1_i686
   script:
     - bash .build-wheels.sh manylinux1_i686
@@ -77,6 +82,7 @@ wheel/manylinux1_32:
       - wheelhouse/*whl
 
 sdist:
+  stage: build
   image: python:latest
   script:
     python setup.py sdist
