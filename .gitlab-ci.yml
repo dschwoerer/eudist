@@ -1,68 +1,77 @@
-# This file is a template, and might need editing before it works on your project.
-# Official language image. Look for the different tagged releases at:
-# https://hub.docker.com/r/library/python/tags/
-image: python:latest
+# # This file is a template, and might need editing before it works on your project.
+# # Official language image. Look for the different tagged releases at:
+# # https://hub.docker.com/r/library/python/tags/
+# image: python:latest
 
-# Change pip's cache directory to be inside the project directory since we can
-# only cache local items.
-variables:
-  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+# # Change pip's cache directory to be inside the project directory since we can
+# # only cache local items.
+# variables:
+#   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
 
-# Pip's cache doesn't store the python packages
-# https://pip.pypa.io/en/stable/reference/pip_install/#caching
-#
-# If you want to also cache the installed packages, you have to install
-# them in a virtualenv and cache it as well.
-cache:
-  paths:
-    - .cache/pip
-    - venv/
+# # Pip's cache doesn't store the python packages
+# # https://pip.pypa.io/en/stable/reference/pip_install/#caching
+# #
+# # If you want to also cache the installed packages, you have to install
+# # them in a virtualenv and cache it as well.
+# cache:
+#   paths:
+#     - .cache/pip
+#     - venv/
 
-before_script:
-  - python -V  # Print out python version for debugging
-  - pip install virtualenv
-  - virtualenv venv
-  - source venv/bin/activate
+# before_script:
+#   - python -V  # Print out python version for debugging
+#   - pip install virtualenv
+#   - virtualenv venv
+#   - source venv/bin/activate
 
-test:
+# test:
+#   script:
+#     - pip install -r requirements.txt
+#     - python setup.py build_ext --inplace
+#     - python setup.py install
+#     - python -m pytest
+#   parallel:
+#     matrix:
+#       - image: python:latest
+#       - image: python:3.9
+#       - image: python:3.8
+#       - image: python:3.7
+#       - image: python:3.6
+
+# pipinstall:
+#   script:
+#     - pip install .
+#     - python -c "import numpy"
+#     - python -c "import eudist as e;print(e.Plane)"
+#     - pip install pytest
+#     - pytest
+# run:
+#   script:
+#     - pip install -r requirements.txt
+#     - python setup.py bdist_wheel
+#     # an alternative approach is to install and run:
+#     - pip install dist/*
+#     # run the command here
+#   artifacts:
+#     paths:
+#       - dist/*.whl
+
+
+manylinux2014:
+  image: quay.io/pypa/manylinux2014_x86_64
   script:
-    - pip install -r requirements.txt
-    - python setup.py build_ext --inplace
-    - python setup.py install
-    - python -m pytest
-  parallel:
-    matrix:
-      - image: python:latest
-      - image: python:3.9
-      - image: python:3.8
-      - image: python:3.7
-      - image: python:3.6
-
-pipinstall:
-  script:
-    - pip install .
-    - python -c "import numpy"
-    - python -c "import eudist as e;print(e.Plane)"
-    - pip install pytest
-    - pytest
-run:
-  script:
-    - pip install -r requirements.txt
-    - python setup.py bdist_wheel
-    # an alternative approach is to install and run:
-    - pip install dist/*
-    # run the command here
+    - bash .build-wheels.sh manylinux2014_x86_64
   artifacts:
     paths:
-      - dist/*.whl
+      - /io/wheelhouse/*whl
 
-pages:
-  script:
-    - pip install sphinx sphinx-rtd-theme
-    - cd doc ; make html
-    - mv build/html/ ../public/
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
+# pages:
+#   script:
+#     - pip install sphinx sphinx-rtd-theme
+#     - cd doc ; make html
+#     - mv build/html/ ../public/
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - master
