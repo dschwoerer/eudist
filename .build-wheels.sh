@@ -15,7 +15,6 @@ function repair_wheel {
 
 for PYBIN in /opt/python/*/bin;
 do
-    make clean
     $PYBIN/pip install numpy cython
     PY=$PYBIN/python make
     "${PYBIN}/pip" wheel . --no-deps -w wheelhouse/
