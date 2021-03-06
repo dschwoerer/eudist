@@ -101,5 +101,7 @@ deploy/pypi:
   needs:
     - sdist
     - wheel/manylinux2014
+    - wheel/manylinux1_64
+    - wheel/manylinux1_32
   only:
     - tags
