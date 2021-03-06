@@ -92,7 +92,8 @@ deploy/pypi:
   script:
     # TWINE_USERNAME and TWINE_PASSWORD are provided by CI secret variables
     - pip install twine
-    - twine upload --repository testpypi *.whl *.tar.*
+    - ls -l
+    - twine upload --repository testpypi wheelhouse/*.whl dist/*.tar.*
   needs:
     - sdist
     - wheel/manylinux2014
