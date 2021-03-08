@@ -15,7 +15,9 @@ function repair_wheel {
 
 for PYBIN in /opt/python/cp3*/bin;
 do
-    $PYBIN/pip install numpy cython
+    $PYBIN/pip install numpy cython setuptools_scm
+    git checkout -- setup.cfg
+    export SETUPTOOLS_SCM_PRETEND_VERSION=$($PYBIN/python3 -c 'from setuptools_scm import get_version ;print(get_version("."))')
     sed -e "s/numpy.*/numpy==$($PYBIN/python -c 'from numpy.version import version; print(version)')/" -i setup.cfg
     grep numpy setup.cfg
     PY=$PYBIN/python make
