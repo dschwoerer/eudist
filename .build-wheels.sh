@@ -16,7 +16,7 @@ function repair_wheel {
 for PYBIN in /opt/python/cp3*/bin;
 do
     $PYBIN/pip install numpy cython
-    sed -e "s/numpy.*/numpy=$($PYBIN/python -c 'from numpy.version import version; print(version)')/" -i setup.cfg
+    sed -e "s/numpy.*/numpy==$($PYBIN/python -c 'from numpy.version import version; print(version)')/" -i setup.cfg
     grep numpy setup.cfg
     PY=$PYBIN/python make
     "${PYBIN}/pip" wheel . --no-deps -w wheelhouse/
