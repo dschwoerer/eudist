@@ -16,7 +16,7 @@ function repair_wheel {
 for PYBIN in /opt/python/cp3*/bin;
 do
     npv=1.15
-    test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.16
+    test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.17
     $PYBIN/pip install numpy==$npv cython setuptools_scm
     git checkout -- setup.cfg
     export SETUPTOOLS_SCM_PRETEND_VERSION=$($PYBIN/python3 -c 'from setuptools_scm import get_version ;print(get_version("."))')
