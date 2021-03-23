@@ -3,7 +3,7 @@
 # distutils: libraries =
 # distutils: library_dirs =
 # distutils: sources = eudist_cpp.cxx
-# distutils: extra_compile_args =
+# distutils: extra_compile_args = -std=c++11
 
 cimport eudist_cpp as c
 cimport numpy as np
