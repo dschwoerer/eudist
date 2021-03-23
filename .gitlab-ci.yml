@@ -1,0 +1,96 @@
+# This file is a template, and might need editing before it works on your project.
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python/tags/
+image: python:latest
+
+stages:
+  - test
+  - build
+  - deploy
+
+test:
+  stage: test
+  before_script:
+    - python -V  # Print out python version for debugging
+    - pip install virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+
+  script:
+    - pip install -r requirements.txt
+    - python setup.py build_ext --inplace
+    - python setup.py install
+    - python -m pytest
+  parallel:
+    matrix:
+      - image: python:latest
+      - image: python:3.9
+      - image: python:3.8
+      - image: python:3.7
+      - image: python:3.6
+
+wheel/manylinux2014:
+  stage: build
+  image: quay.io/pypa/manylinux2014_x86_64
+  script:
+    - bash .build-wheels.sh manylinux2014_x86_64
+  artifacts:
+    paths:
+      - wheelhouse/*whl
+
+wheel/manylinux1_64:
+  stage: build
+  image: quay.io/pypa/manylinux1_x86_64
+  script:
+    - bash .build-wheels.sh manylinux1_x86_64
+  artifacts:
+    paths:
+      - wheelhouse/*whl
+
+wheel/manylinux1_32:
+  stage: build
+  image: quay.io/pypa/manylinux1_i686
+  script:
+    - bash .build-wheels.sh manylinux1_i686
+  artifacts:
+    paths:
+      - wheelhouse/*whl
+
+sdist:
+  stage: build
+  image: python:latest
+  script:
+    python setup.py sdist
+  artifacts:
+    paths:
+      - dist/*.tar.*
+
+# pages:
+#   script:
+#     - pip install sphinx sphinx-rtd-theme
+#     - cd doc ; make html
+#     - mv build/html/ ../public/
+#   artifacts:
+#     paths:
+#       - public
+#   only:
+#     - master
+
+
+
+deploy/pypi:
+  stage: deploy
+  image: python:slim
+  script:
+    # TWINE_USERNAME and TWINE_PASSWORD are provided by CI secret variables
+    - pip install twine
+    - ls -l
+    - ls dist | grep dev && rep="--repository testpypi" && export TWINE_PASSWORD="$TWINE_PASSWORD_TEST" ||  rep="  "
+    - twine upload $rep wheelhouse/*.whl dist/*.tar.*
+  needs:
+    - sdist
+    - wheel/manylinux2014
+    - wheel/manylinux1_64
+    - wheel/manylinux1_32
+  only:
+    - tags
