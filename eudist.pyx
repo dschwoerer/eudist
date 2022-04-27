@@ -107,9 +107,12 @@ def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] 
     the `points` and the `dot`.  A winding number of zero means the
     point is outside the surface.
 
+    The shape of `points` has to be `(n, 2)`.
+
     If the conversions are slow, ensure the variables are already
-    C-contigous.
+    C-contigous, e.g. with `assert points.flags['C_CONTIGUOUS']`
     """
+    assert points.shape[1] == 2
     cdef np.ndarray[double, ndim=1, mode='c'] pnts = np.ravel(points,order='c')
     dot = np.ascontiguousarray(dot)
     return c.winding_number(&pnts[0], &dot[0], len(points))
