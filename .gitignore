@@ -10,3 +10,5 @@ eudist*so
 /eudist.egg-info/
 /dist/
 /.eggs/
+/eudist/_version.py
+html/

@@ -10,6 +10,9 @@ cimport numpy as np
 import numpy as np
 
 def dot_dot(np.ndarray[double,ndim=1] a, np.ndarray[double, ndim=1] b):
+    """
+    Distance between two dots.
+    """
     a = np.ascontiguousarray(a)
     b = np.ascontiguousarray(b)
     return c.dot_dot(&a[0],&b[0],len(a))
@@ -37,14 +40,27 @@ cdef class Plane:
             self.cobj = NULL
 
     def dist(self, np.ndarray[double,ndim=1] dot):
+        """
+        Distance between the plane and the given point.
+        """
         dot = np.ascontiguousarray(dot)
         return self.cobj.dist(&dot[0])
 
     def signed_dist(self, np.ndarray[double,ndim=1] dot):
+        """
+        Signed distance between the plane and the given point.
+
+        While the sign is depending on the order of the given points and is
+        thus to some extend abitrary. However, if the sign of two points is
+        different, they are on different sides of the plane.
+        """
         dot = np.ascontiguousarray(dot)
         return self.cobj.signed_dist(&dot[0])
 
     def info(self):
+        """
+        Print some info about the Plane. Mostly for debugging.
+        """
         self.cobj.info()
 
 cdef class PolyMesh:
@@ -74,12 +90,15 @@ cdef class PolyMesh:
 
     def find_cell(self,  np.ndarray[double,ndim=1] dot, int guess=-1):
         """
-        Find the cellid of a point.
+        Find the cellid for a given point.
         """
         dot = np.ascontiguousarray(dot)
         return self.cobj.find_cell(&dot[0], guess)
 
 def plane_dot(Plane pl, np.ndarray[double, ndim=1] dot):
+    """
+    Calculate the distance between the Plane and a dot
+    """
     return pl.dist(dot)
 
 def winding_number(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot):
@@ -108,11 +127,11 @@ def polygon_dot(np.ndarray[double,ndim=2] points, np.ndarray[double, ndim=1] dot
 
 
 
-def det(a, b):
+def _det(a, b):
     return a[0] * b[1] - a[1] * b[0]
 
 
-def vlen(a):
+def _vlen(a):
     return np.sqrt(np.dot(a, a))
 
 
@@ -127,24 +146,26 @@ def do_seg_seg_intersect(seq0, seq1):
     p1 = seq1[0]
     dist = p1 - p0
 
-    det1 = det(v0, v1)
+    det1 = _det(v0, v1)
     # check for co-linearity:
     if abs(det1) < eps:
         # Check for overlap? - not yet
-        # dist -= np.dot(dist, v0) / vlen(v0) / vlen(dist)
+        # dist -= np.dot(dist, v0) / _vlen(v0) / _vlen(dist)
         # print("colin", dist, det1)
         return False
 
-    t0 = det(dist, v0) / det1
+    t0 = _det(dist, v0) / det1
 
     if t0 < -eps or t0 > 1 + eps:
         # print("t0", t0)
         return False
 
-    t1 = det(dist, v1) / det1
+    t1 = _det(dist, v1) / det1
 
     if t1 < -eps or t1 > 1 + eps:
         # print("t1", t1)
         return False
 
     return True
+
+include "eudist/_version.py"
