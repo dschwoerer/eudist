@@ -32,9 +32,9 @@ cdef class Plane:
         self.cobj = new c.Plane(&p0[0], &p1[0], &p2[0], len(p0))
 
     def __dealloc__(self):
-        self.__mydealloc__()
+        Plane._eudist_dealloc(self)
 
-    def __mydealloc__(self):
+    def _eudist_dealloc(self):
         if self.cobj:
             del self.cobj
             self.cobj = NULL
@@ -81,9 +81,9 @@ cdef class PolyMesh:
         self.cobj = new c.PolyMesh(&datax_[0], &datay_[0], datax.shape[0], datay.shape[1])
 
     def __dealloc__(self):
-        self.__mydealloc__()
+        PolyMesh._eudist_dealloc(self)
 
-    def __mydealloc__(self):
+    def _eudist_dealloc(self):
         if self.cobj:
             del self.cobj
             self.cobj = NULL
