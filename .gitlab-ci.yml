@@ -108,8 +108,10 @@ deploy/pypi:
     - twine upload $rep wheelhouse/*.whl dist/*.tar.*
   needs:
     - sdist
-    - wheel/manylinux2014
-    - wheel/manylinux1_64
-    - wheel/manylinux1_32
+    - wheel/manylinux2014_x86_64
+    - wheel/manylinux_2_24_x86_64
+    - wheel/manylinux2014_i686
+    - wheel/manylinux_2_24_i686
+    - wheel/manylinux_2_28_x86_64
   only:
     - tags
