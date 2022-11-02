@@ -1,3 +1,0 @@
-[tool.setuptools_scm]
-write_to = "eudist/_version.py"
-git_describe_command = "git describe --dirty --tags --first-parent"
