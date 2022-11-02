@@ -30,7 +30,7 @@ test:
       - image: python:3.7
       - image: python:3.6
 
-wheel/manylinux2014:
+wheel/manylinux2014_x86_64:
   stage: build
   image: quay.io/pypa/manylinux2014_x86_64
   script:
@@ -39,20 +39,38 @@ wheel/manylinux2014:
     paths:
       - wheelhouse/*whl
 
-wheel/manylinux1_64:
+wheel/manylinux_2_24_x86_64:
   stage: build
-  image: quay.io/pypa/manylinux1_x86_64
+  image: quay.io/pypa/manylinux_2_24_x86_64
   script:
-    - bash .build-wheels.sh manylinux1_x86_64
+    - bash .build-wheels.sh manylinuxx_2_24_x86_64
   artifacts:
     paths:
       - wheelhouse/*whl
 
-wheel/manylinux1_32:
+wheel/manylinux2014_i686:
   stage: build
-  image: quay.io/pypa/manylinux1_i686
+  image: quay.io/pypa/manylinux2014_i686
   script:
-    - bash .build-wheels.sh manylinux1_i686
+    - bash .build-wheels.sh manylinux2014_i686
+  artifacts:
+    paths:
+      - wheelhouse/*whl
+
+wheel/manylinux_2_24_i686:
+  stage: build
+  image: quay.io/pypa/manylinux_2_24_i686
+  script:
+    - bash .build-wheels.sh manylinuxx_2_24_i686
+  artifacts:
+    paths:
+      - wheelhouse/*whl
+
+wheel/manylinux_2_28_x86_64:
+  stage: build
+  image: quay.io/pypa/manylinux_2_28_x86_64
+  script:
+    - bash .build-wheels.sh manylinux_2_28_x86_64
   artifacts:
     paths:
       - wheelhouse/*whl
