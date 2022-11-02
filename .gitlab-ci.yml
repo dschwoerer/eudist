@@ -81,7 +81,8 @@ sdist:
   stage: build
   image: python:latest
   script:
-    python setup.py sdist
+    - pip install -r requirements.txt
+    - python setup.py sdist
   artifacts:
     paths:
       - dist/*.tar.*
