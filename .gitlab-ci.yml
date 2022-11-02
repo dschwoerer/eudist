@@ -4,8 +4,8 @@
 image: python:latest
 
 stages:
-  - build
   - test
+  - build
   - deploy
 
 test:
@@ -19,11 +19,13 @@ test:
   script:
     - pip install -r requirements.txt
     - python setup.py build_ext --inplace
-    - python setup.py install
+    - ls -l
+    - ls -l eudist/
     - python -m pytest
   parallel:
     matrix:
       - image: python:latest
+      - image: python:3.11
       - image: python:3.10
       - image: python:3.9
       - image: python:3.8

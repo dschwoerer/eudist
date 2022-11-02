@@ -1,4 +1,5 @@
 numpy
 cython
 pytest
-flake8
+setuptools_scm_git_archive
+setuptools_scm
