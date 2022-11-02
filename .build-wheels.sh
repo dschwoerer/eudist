@@ -18,7 +18,7 @@ do
     npv=1.15
     test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.18
     test $($PYBIN/python -V |grep 3... -o) == 3.10 && npv=1.21
-    test $($PYBIN/python -V |grep 3... -o) == 3.11 && npv=1.21
+    test $($PYBIN/python -V |grep 3... -o) == 3.11 && npv=1.22
     $PYBIN/pip install numpy==$npv cython setuptools_scm
     git checkout -- setup.cfg
     export SETUPTOOLS_SCM_PRETEND_VERSION=$($PYBIN/python3 -c 'from setuptools_scm import get_version ;print(get_version("."))')
