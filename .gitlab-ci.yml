@@ -43,7 +43,7 @@ wheel/manylinux_2_24_x86_64:
   stage: build
   image: quay.io/pypa/manylinux_2_24_x86_64
   script:
-    - bash .build-wheels.sh manylinuxx_2_24_x86_64
+    - bash .build-wheels.sh manylinux_2_24_x86_64
   artifacts:
     paths:
       - wheelhouse/*whl
@@ -61,7 +61,7 @@ wheel/manylinux_2_24_i686:
   stage: build
   image: quay.io/pypa/manylinux_2_24_i686
   script:
-    - bash .build-wheels.sh manylinuxx_2_24_i686
+    - bash .build-wheels.sh manylinux_2_24_i686
   artifacts:
     paths:
       - wheelhouse/*whl
