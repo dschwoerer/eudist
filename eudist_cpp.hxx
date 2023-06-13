@@ -37,5 +37,7 @@ private:
   const double *datax;
   const double *datay;
   const int num_cells;
-  double *bounds;
+  double *bounds{nullptr};
+  double *outer{nullptr};
+  void add_to_outer(int &pos, int i, int j);
 };

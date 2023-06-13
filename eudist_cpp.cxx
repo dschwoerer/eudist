@@ -215,10 +215,17 @@ double polygon_dot(const double *points, const double *dot, const int num_pnts,
   return plane.dist(dot);
 }
 
+void PolyMesh::add_to_outer(int &pos, int i, int j) {
+  int iin = i * ny + j;
+  outer[pos++] = datax[iin];
+  outer[pos++] = datay[iin];
+};
+
 PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
     : nx(nx), ny(ny), datax(datax), datay(datay),
       num_cells((nx - 1) * (ny - 1)) {
   bounds = new double[num_cells * 2 * 4];
+  outer = new double[(nx + ny) * 2 * 2];
   int pos = 0;
   for (int i = 0; i < nx - 1; ++i) {
     for (int j = 0; j < ny - 1; ++j) {
@@ -233,8 +240,23 @@ PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
       bounds[pos++] = datay[iin + ny];
     }
   }
-  // printf("%d %d=%d\n",num_cells, num_cells*8, pos);
-  // assert(num_cells * 8 == pos);
+  {
+    int pos = 0;
+    int i = 0;
+    int j = 0;
+    for (; i < nx - 1; ++i) {
+      add_to_outer(pos, i, j);
+    }
+    for (; j < ny - 1; ++j) {
+      add_to_outer(pos, i, j);
+    }
+    for (; i > 0; --i){
+      add_to_outer(pos, i, j);
+    }
+    for (;j > 0; --j){
+      add_to_outer(pos, i, j);
+    }
+  }
 }
 
 PolyMesh::~PolyMesh(){
@@ -253,6 +275,10 @@ int PolyMesh::find_cell(const double *dot, int guess) {
         }
       }
     }
+  }
+
+  if (winding_number(outer, dot, (nx + ny - 2) * 2) == 0) {
+    return -1;
   }
 
   for (int pos = 0; pos < num_cells; ++pos) {
