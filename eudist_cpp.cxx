@@ -234,8 +234,8 @@ PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
       bounds[pos++] = datay[iin];
       bounds[pos++] = datax[iin + 1];
       bounds[pos++] = datay[iin + 1];
-      bounds[pos++] = datax[iin + ny+1];
-      bounds[pos++] = datay[iin + ny+1];
+      bounds[pos++] = datax[iin + ny + 1];
+      bounds[pos++] = datay[iin + ny + 1];
       bounds[pos++] = datax[iin + ny];
       bounds[pos++] = datay[iin + ny];
     }
@@ -250,24 +250,22 @@ PolyMesh::PolyMesh(const double *datax, const double *datay, int nx, int ny)
     for (; j < ny - 1; ++j) {
       add_to_outer(pos, i, j);
     }
-    for (; i > 0; --i){
+    for (; i > 0; --i) {
       add_to_outer(pos, i, j);
     }
-    for (;j > 0; --j){
+    for (; j > 0; --j) {
       add_to_outer(pos, i, j);
     }
   }
 }
 
-PolyMesh::~PolyMesh(){
-  delete[] bounds;
-}
+PolyMesh::~PolyMesh() { delete[] bounds; }
 
 int PolyMesh::find_cell(const double *dot, int guess) {
   if (guess >= 0) {
     for (int i = -1; i < 2; ++i) {
       for (int j = -1; j < 2; ++j) {
-        int pos = guess + i + (ny -1) * j;
+        int pos = guess + i + (ny - 1) * j;
         if (pos >= 0 and pos < num_cells) {
           if (winding_number(bounds + pos * 8, dot, 4)) {
             return pos;
