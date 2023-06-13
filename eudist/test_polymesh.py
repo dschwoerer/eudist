@@ -24,9 +24,7 @@ class Transform(object):
         return p
 
 
-def test_polymesh_1():
-    nx = 5
-    ny = 7
+def do_test_polymesh_1(nx=5, ny=7, iter=10):
     x = np.arange(nx + 1)[:, None] * np.ones((nx + 1, ny + 1))
     y = np.arange(ny + 1)[None, :] * np.ones((nx + 1, ny + 1))
     mesh = np.array([x, y])  # .flatten(), y.flatten()])
@@ -43,7 +41,7 @@ def test_polymesh_1():
     meshx, meshy = mesh
     mesh = eudist.PolyMesh(meshx, meshy)
 
-    for _ in range(10):
+    for _ in range(iter):
         xx, xy = np.random.rand(2) * 1.5 - 0.25
         pos = a + b * xx + c * xy + xx * xy * d
         isin = 0 <= xx <= 1 and 0 <= xy <= 1
@@ -56,7 +54,17 @@ def test_polymesh_1():
             print(meshx.shape)
             data = ((x == cx) & (y == cy)).astype(int)
             plt.pcolormesh(meshx, meshy, data)
-            plt.scatter(pos[0], pos[1])
-            plt.plot(cell[0], cell[1])
+            plt.scatter(*pos)
+            plt.plot(*cell)
             plt.show()
             raise
+
+
+def test_polymesh_1():
+    do_test_polymesh_1()
+
+
+def test_polymesh_2():
+    for nx in [5, 7, 13, 128]:
+        for ny in [5, 7, 14, 64]:
+            do_test_polymesh_1(nx, ny, nx * ny)
