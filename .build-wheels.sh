@@ -13,13 +13,15 @@ function repair_wheel {
     fi
 }
 
+SKIP=3.12
+
 for PYBIN in /opt/python/cp3*/bin;
 do
     npv=1.15
     test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.18
     test $($PYBIN/python -V |grep 3... -o) == 3.10 && npv=1.21
     test $($PYBIN/python -V |grep 3... -o) == 3.11 && npv=1.22
-    test $($PYBIN/python -V |grep 3... -o) == 3.12 && continue
+    test $($PYBIN/python -V |grep 3... -o) == $SKIP && continue
     $PYBIN/pip install numpy==$npv cython setuptools_scm
     git checkout -- setup.cfg
     export SETUPTOOLS_SCM_PRETEND_VERSION=$($PYBIN/python3 -c 'from setuptools_scm import get_version ;print(get_version("."))')
@@ -36,6 +38,7 @@ done
 ls -l /io/wheelhouse
 
 for PYBIN in /opt/python/cp3*/bin/; do
+    test $($PYBIN/python -V |grep 3... -o) == $SKIP && continue
     "${PYBIN}/pip" install $NAME --no-index -f /io/wheelhouse
     if test -e "${PYBIN}/nosetests"
     then
