@@ -25,6 +25,7 @@ test:
   parallel:
     matrix:
       - image: python:latest
+      - image: python:3.12
       - image: python:3.11
       - image: python:3.10
       - image: python:3.9
