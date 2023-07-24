@@ -1,4 +1,5 @@
 from setuptools import Extension, setup
+import os
 
 incdir = ""
 try:
@@ -33,7 +34,19 @@ except ImportError:
 
 sourcefiles = ["eudist.pyx", "eudist_cpp.cxx"]
 
-extensions = [Extension("eudist", sourcefiles, include_dirs=[incdir])]
+if os.name == "nt":
+    extra_compile_args = ["/TP", "/permissive-"]
+else:
+    extra_compile_args = ["-std=c++11"]
+
+extensions = [
+    Extension(
+        "eudist",
+        sourcefiles,
+        include_dirs=[incdir],
+        extra_compile_args=extra_compile_args,
+    )
+]
 
 setup(
     use_scm_version=True,
