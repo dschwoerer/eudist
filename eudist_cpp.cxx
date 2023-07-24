@@ -1,6 +1,7 @@
 #include "eudist_cpp.hxx"
 #include <cmath>
 #include <stdexcept>
+#include <vector>
 
 double dot_dot(const double *a, const double *b, int n) {
   double result = 0;
@@ -22,7 +23,7 @@ double dot_prod(const double *a, const double *b, int n) {
 Plane::Plane(const double *p0, const double *p1, const double *p2, int n)
     : norm(nullptr), dim(n) {
   if (dim == 3) {
-    double v0[dim], v1[dim];
+    double v0[3], v1[3];
     for (int i = 0; i < dim; ++i) {
       v0[i] = p1[i] - p0[i];
       v1[i] = p2[i] - p0[i];
@@ -108,18 +109,20 @@ double line_segment_dot(const double *lp0, const double *lp1, const double *dot,
                         const int n) {
   // Calculate the distance between the line segment defined by two
   // points in line and a dot.
-  double v[n], w[n];
+  std::vector<double> v, w;
+  v.resize(n);
+  w.resize(n);
   for (int i = 0; i < n; ++i) {
     v[i] = lp1[i] - lp0[i];
     w[i] = dot[i] - lp0[i];
   }
 
-  auto c1 = dot_prod(w, v, n);
+  auto c1 = dot_prod(w.data(), v.data(), n);
   if (c1 < 0) {
     return dot_dot(dot, lp0, n);
   }
 
-  auto c2 = dot_prod(v, v, n);
+  auto c2 = dot_prod(v.data(), v.data(), n);
   if (c2 <= c1) {
     return dot_dot(dot, lp1, n);
   }
@@ -128,7 +131,7 @@ double line_segment_dot(const double *lp0, const double *lp1, const double *dot,
     v[i] *= p;
     v[i] += lp0[i];
   }
-  return dot_dot(v, dot, n);
+  return dot_dot(v.data(), dot, n);
 }
 
 double polygon_dot(const double *points, const double *dot, const int num_pnts,
@@ -266,7 +269,7 @@ int PolyMesh::find_cell(const double *dot, int guess) {
     for (int i = -1; i < 2; ++i) {
       for (int j = -1; j < 2; ++j) {
         int pos = guess + i + (ny - 1) * j;
-        if (pos >= 0 and pos < num_cells) {
+        if (pos >= 0 && pos < num_cells) {
           if (winding_number(bounds + pos * 8, dot, 4)) {
             return pos;
           }
