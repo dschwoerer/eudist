@@ -18,11 +18,12 @@ SKIP=3.12
 for PYBIN in /opt/python/cp3*/bin;
 do
     npv=1.15
-    test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.18
+    test $($PYBIN/python -V |grep 3.. -o) == 3.8 && npv=1.18
+    test $($PYBIN/python -V |grep 3.. -o) == 3.9 && npv=1.19
     test $($PYBIN/python -V |grep 3... -o) == 3.10 && npv=1.21
     test $($PYBIN/python -V |grep 3... -o) == 3.11 && npv=1.22
     test $($PYBIN/python -V |grep 3... -o) == $SKIP && continue
-    $PYBIN/pip install numpy==$npv cython~=0.29.0 setuptools_scm
+    $PYBIN/pip install numpy~=$npv.0 cython setuptools_scm
     git checkout -- setup.cfg
     export SETUPTOOLS_SCM_PRETEND_VERSION=$($PYBIN/python3 -c 'from setuptools_scm import get_version ;print(get_version("."))')
     sed -e "s/numpy.*/numpy>=$($PYBIN/python -c 'from numpy.version import version; print(version)')/" -i setup.cfg
