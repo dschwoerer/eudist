@@ -42,7 +42,7 @@ do
     sed -e "s/numpy.*/numpy>=$($PYBIN/python -c 'from numpy.version import version; print(version)')/" -i setup.cfg
     grep numpy setup.cfg
     PY=$PYBIN/python make
-    "${PYBIN}/pip" wheel . --no-deps -w wheelhouse/
+    "${PYBIN}/pip" wheel . --no-deps --no-build-isolation -w wheelhouse/
 done
 
 for whl in wheelhouse/*.whl; do
