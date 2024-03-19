@@ -2,6 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <vector>
+#include <cstdio>
 
 double dot_dot(const double *a, const double *b, int n) {
   double result = 0;
