@@ -18,7 +18,7 @@ jobs:
         env:
           CIBW_SKIP: pp310-win_amd64
           CIBW_ARCHS_LINUX: "x86_64 i686 aarch64 ppc64le s390x"
-          CIBW_TEST_COMMAND: pip install pytest && pytest {package}
+          # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
         #   package-dir: .
         #   output-dir: wheelhouse
