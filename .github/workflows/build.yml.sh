@@ -54,7 +54,7 @@ cat <<'EOF'
         uses: pypa/cibuildwheel@v2.17.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: pp310-win_amd64
+          CIBW_SKIP: "pp*-win_amd64"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
