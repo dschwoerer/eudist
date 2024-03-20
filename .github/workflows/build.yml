@@ -32,10 +32,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup packages
+      - name: Set up QEMU
         if: ${{ contains(matrix.config.name, 'linux') }}
-        run:
-          bash ./.github/workflows/setup_qemu.sh ${{ matrix.config.arch }}
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.17.0
