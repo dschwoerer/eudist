@@ -10,102 +10,105 @@ jobs:
       matrix:
         config:
           - name: "linux x86"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: x86_64
             build: "*"
           - name: "linux x32"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: i686
             build: "*"
           - name: "linux aarch64 36"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp36* pp36*"
           - name: "linux aarch64 37"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp37* pp37*"
           - name: "linux aarch64 38"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp38* pp38*"
           - name: "linux aarch64 39"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp39* pp39*"
           - name: "linux aarch64 310"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp310* pp310*"
           - name: "linux aarch64 311"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp311* pp311*"
           - name: "linux aarch64 312"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: aarch64
             build: "cp312* pp312*"
           - name: "linux ppc64le 36"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp36* pp36*"
           - name: "linux ppc64le 37"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp37* pp37*"
           - name: "linux ppc64le 38"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp38* pp38*"
           - name: "linux ppc64le 39"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp39* pp39*"
           - name: "linux ppc64le 310"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp310* pp310*"
           - name: "linux ppc64le 311"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp311* pp311*"
           - name: "linux ppc64le 312"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: ppc64le
             build: "cp312* pp312*"
           - name: "linux s390x 36"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp36* pp36*"
           - name: "linux s390x 37"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp37* pp37*"
           - name: "linux s390x 38"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp38* pp38*"
           - name: "linux s390x 39"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp39* pp39*"
           - name: "linux s390x 310"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp310* pp310*"
           - name: "linux s390x 311"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp311* pp311*"
           - name: "linux s390x 312"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: s390x
             build: "cp312* pp312*"
           - name: windoof
-            os: windows-2019
+            os: windows-latest
             build: "*"
-          - name: mac
-            os: macos-11
+          - name: mac intel
+            os: macos-13
+            build: "*"
+          - name: mac arm
+            os: macos-14
             build: "*"
 
     steps:
@@ -131,7 +134,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.config.os }}-${{ matrix.python-version }}-${{ matrix.config.arch }}
+          name: "dist-${{ matrix.config.os }}-${{ matrix.config.build }}-${{ matrix.config.arch }}"
           path: ./wheelhouse/*.whl
 
 

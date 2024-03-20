@@ -11,11 +11,11 @@ jobs:
       matrix:
         config:
           - name: "linux x86"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: x86_64
             build: "*"
           - name: "linux x32"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: i686
             build: "*"
 EOF
@@ -23,7 +23,7 @@ for arch in aarch64 ppc64le s390x ; do
     for py in 36 37 38 39 310 311 312 ; do
         cat <<EOF
           - name: "linux $arch $py"
-            os: ubuntu-20.04
+            os: ubuntu-latest
             arch: $arch
             build: "cp${py}* pp${py}*"
 EOF
@@ -31,10 +31,13 @@ EOF
 done
 cat <<'EOF'
           - name: windoof
-            os: windows-2019
+            os: windows-latest
             build: "*"
-          - name: mac
-            os: macos-11
+          - name: mac intel
+            os: macos-13
+            build: "*"
+          - name: mac arm
+            os: macos-14
             build: "*"
 
     steps:
@@ -60,7 +63,7 @@ cat <<'EOF'
 
       - uses: actions/upload-artifact@v4
         with:
-          name: dist-${{ matrix.config.os }}-${{ matrix.python-version }}-${{ matrix.config.arch }}
+          name: "dist-${{ matrix.config.os }}-${{ matrix.config.build }}-${{ matrix.config.arch }}"
           path: ./wheelhouse/*.whl
 
 
