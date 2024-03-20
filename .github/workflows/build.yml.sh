@@ -98,8 +98,9 @@ cat <<'EOF'
     steps:
     - uses: actions/download-artifact@v4
       with:
-        name: dist-*
         path: dist
+        pattern: dist-*
+        merge-multiple: true
 
     - uses: pypa/gh-action-pypi-publish@release/v1
 EOF
