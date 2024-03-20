@@ -26,6 +26,7 @@ for arch in aarch64 ppc64le s390x ; do
             os: ubuntu-latest
             arch: $arch
             build: "cp${py}* pp${py}*"
+            pyversion: $py
 EOF
     done
 done
@@ -63,7 +64,7 @@ cat <<'EOF'
 
       - uses: actions/upload-artifact@v4
         with:
-          name: "dist-${{ matrix.config.os }}-${{ matrix.config.build }}-${{ matrix.config.arch }}"
+          name: "dist-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.pyversion }}"
           path: ./wheelhouse/*.whl
 
 
