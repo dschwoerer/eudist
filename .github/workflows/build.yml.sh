@@ -22,9 +22,9 @@ EOF
 for arch in aarch64 ppc64le s390x ; do
     for py in 36 37 38 39 310 311 312 ; do
         cat <<EOF
-          - name: "linux aarch64"
+          - name: "linux $arch $py"
             os: ubuntu-20.04
-            arch: aarch64
+            arch: $arch
             build: "cp${py}* pp${py}*"
 EOF
     done
