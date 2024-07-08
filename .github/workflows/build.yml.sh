@@ -10,16 +10,8 @@ jobs:
     strategy:
       matrix:
         config:
-          - name: "linux x86"
-            os: ubuntu-latest
-            arch: x86_64
-            build: "*"
-          - name: "linux x32"
-            os: ubuntu-latest
-            arch: i686
-            build: "*"
 EOF
-for arch in aarch64 ppc64le s390x ; do
+for arch in aarch64 ppc64le s390x x86_64 i686; do
     for py in 36 37 38 39 310 311 312 ; do
         build="cp${py}* pp${py}*"
         test $arch = s390x && build="cp$py*manylinux*"
