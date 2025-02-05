@@ -22,7 +22,14 @@ EOF
 for arch in aarch64 ppc64le s390x ; do
     for py in 36 37 38 39 310 311 312 313 ; do
         build="cp${py}* pp${py}*"
-        test $arch = s390x && build="cp$py*manylinux*"
+        if test $arch = s390x ;
+        then
+            # disable pp
+            build="cp$py*manylinux*"
+            # skip 3.11
+            test $py = 311 && continue
+        fi
+
         cat <<EOF
           - name: "linux $arch $py"
             os: ubuntu-latest

@@ -122,11 +122,6 @@ jobs:
             arch: s390x
             build: "cp310*manylinux*"
             pyversion: 310
-          - name: "linux s390x 311"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp311*manylinux*"
-            pyversion: 311
           - name: "linux s390x 312"
             os: ubuntu-latest
             arch: s390x
