@@ -10,31 +10,86 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: "linux aarch64 36"
+          - name: "linux x86_64 36"
             os: ubuntu-latest
-            arch: aarch64
+            arch: x86_64
             build: "cp36* pp36*"
             pyversion: 36
-          - name: "linux aarch64 37"
+          - name: "linux x86_64 37"
             os: ubuntu-latest
-            arch: aarch64
+            arch: x86_64
             build: "cp37* pp37*"
             pyversion: 37
-          - name: "linux aarch64 38"
+          - name: "linux x86_64 38"
             os: ubuntu-latest
-            arch: aarch64
+            arch: x86_64
             build: "cp38* pp38*"
             pyversion: 38
-          - name: "linux aarch64 39"
+          - name: "linux x86_64 39"
             os: ubuntu-latest
-            arch: aarch64
+            arch: x86_64
             build: "cp39* pp39*"
             pyversion: 39
-          - name: "linux aarch64 310"
+          - name: "linux x86_64 310"
             os: ubuntu-latest
-            arch: aarch64
+            arch: x86_64
             build: "cp310* pp310*"
             pyversion: 310
+          - name: "linux x86_64 311"
+            os: ubuntu-latest
+            arch: x86_64
+            build: "cp311* pp311*"
+            pyversion: 311
+          - name: "linux x86_64 312"
+            os: ubuntu-latest
+            arch: x86_64
+            build: "cp312* pp312*"
+            pyversion: 312
+          - name: "linux x86_64 313"
+            os: ubuntu-latest
+            arch: x86_64
+            build: "cp313* pp313*"
+            pyversion: 313
+          - name: "linux i686 36"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp36* pp36*"
+            pyversion: 36
+          - name: "linux i686 37"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp37* pp37*"
+            pyversion: 37
+          - name: "linux i686 38"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp38* pp38*"
+            pyversion: 38
+          - name: "linux i686 39"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp39* pp39*"
+            pyversion: 39
+          - name: "linux i686 310"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp310* pp310*"
+            pyversion: 310
+          - name: "linux i686 311"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp311* pp311*"
+            pyversion: 311
+          - name: "linux i686 312"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp312* pp312*"
+            pyversion: 312
+          - name: "linux i686 313"
+            os: ubuntu-latest
+            arch: i686
+            build: "cp313* pp313*"
+            pyversion: 313
           - name: "linux aarch64 311"
             os: ubuntu-latest
             arch: aarch64
@@ -44,66 +99,6 @@ jobs:
             os: ubuntu-latest
             arch: aarch64
             build: "cp312* pp312*"
-            pyversion: 312
-          - name: "linux ppc64le 36"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp36* pp36*"
-            pyversion: 36
-          - name: "linux ppc64le 37"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp37* pp37*"
-            pyversion: 37
-          - name: "linux ppc64le 38"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp38* pp38*"
-            pyversion: 38
-          - name: "linux ppc64le 310"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp310* pp310*"
-            pyversion: 310
-          - name: "linux ppc64le 312"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp312* pp312*"
-            pyversion: 312
-          - name: "linux ppc64le 313"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp313* pp313*"
-            pyversion: 313
-          - name: "linux s390x 36"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp36*manylinux*"
-            pyversion: 36
-          - name: "linux s390x 37"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp37*manylinux*"
-            pyversion: 37
-          - name: "linux s390x 38"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp38*manylinux*"
-            pyversion: 38
-          - name: "linux s390x 39"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp39*manylinux*"
-            pyversion: 39
-          - name: "linux s390x 310"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp310*manylinux*"
-            pyversion: 310
-          - name: "linux s390x 312"
-            os: ubuntu-latest
-            arch: s390x
-            build: "cp312*manylinux*"
             pyversion: 312
           - name: windoof
             os: windows-latest
@@ -128,7 +123,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686 pp38-mac*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:

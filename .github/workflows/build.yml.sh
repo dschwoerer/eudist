@@ -12,33 +12,31 @@ jobs:
       matrix:
         config:
 EOF
-for arch in aarch64 ppc64le s390x ; do
+archpy=""
+# s390x ppc64le aarch64 are mostly broken, only list working ones
+for arch in x86_64 i686 ; do
     for py in 36 37 38 39 310 311 312 313 ; do
-        build="cp${py}* pp${py}*"
-        if test $arch = s390x ; then
-            # disable pp
-            build="cp$py*manylinux*"
-            # skip 3.11
-            test $py = 311 && continue
-            test $py = 313 && continue
-        fi
-        if test $arch = ppc64le ; then
-            # skip 3.9
-            test $py = 39 && continue
-            test $py = 311 && continue
-        fi
-	if test $arch = aarch64 ; then
-	    test $py = 313 && continue
-	fi
+	archpy="$archpy $arch-$py"
+    done
+done
+archpy="$archpy aarch64-311 aarch64-312"
+for ap in $archpy
+do
+    arch=${ap%-*}
+    py=${ap#*-}
+    build="cp${py}* pp${py}*"
+    if test $arch = s390x ; then
+        # disable pp
+        build="cp$py*manylinux*"
+    fi
 
-        cat <<EOF
+    cat <<EOF
           - name: "linux $arch $py"
             os: ubuntu-latest
             arch: $arch
             build: "$build"
             pyversion: $py
 EOF
-    done
 done
 cat <<'EOF'
           - name: windoof
@@ -64,7 +62,7 @@ cat <<'EOF'
         uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686 pp38-mac*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
