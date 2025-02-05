@@ -64,11 +64,6 @@ jobs:
             arch: ppc64le
             build: "cp38* pp38*"
             pyversion: 38
-          - name: "linux ppc64le 39"
-            os: ubuntu-latest
-            arch: ppc64le
-            build: "cp39* pp39*"
-            pyversion: 39
           - name: "linux ppc64le 310"
             os: ubuntu-latest
             arch: ppc64le

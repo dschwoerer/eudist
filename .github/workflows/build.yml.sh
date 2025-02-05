@@ -21,6 +21,11 @@ for arch in aarch64 ppc64le s390x ; do
             # skip 3.11
             test $py = 311 && continue
         fi
+        if test $arch = ppc64le ;
+        then
+            # skip 3.9
+            test $py = 39 && continue
+        fi
 
         cat <<EOF
           - name: "linux $arch $py"
