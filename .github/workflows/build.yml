@@ -52,6 +52,11 @@ jobs:
             arch: aarch64
             build: "cp312* pp312*"
             pyversion: 312
+          - name: "linux aarch64 313"
+            os: ubuntu-latest
+            arch: aarch64
+            build: "cp313* pp313*"
+            pyversion: 313
           - name: "linux ppc64le 36"
             os: ubuntu-latest
             arch: ppc64le
@@ -87,6 +92,11 @@ jobs:
             arch: ppc64le
             build: "cp312* pp312*"
             pyversion: 312
+          - name: "linux ppc64le 313"
+            os: ubuntu-latest
+            arch: ppc64le
+            build: "cp313* pp313*"
+            pyversion: 313
           - name: "linux s390x 36"
             os: ubuntu-latest
             arch: s390x
@@ -122,6 +132,11 @@ jobs:
             arch: s390x
             build: "cp312*manylinux*"
             pyversion: 312
+          - name: "linux s390x 313"
+            os: ubuntu-latest
+            arch: s390x
+            build: "cp313*manylinux*"
+            pyversion: 313
           - name: windoof
             os: windows-latest
             build: "*"
