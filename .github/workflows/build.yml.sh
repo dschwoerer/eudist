@@ -52,7 +52,7 @@ cat <<'EOF'
           platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
+        uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
           CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686"
