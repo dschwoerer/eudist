@@ -8,24 +8,28 @@ jobs:
     name: Build wheels on ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
 EOF
 for arch in aarch64 ppc64le s390x ; do
     for py in 36 37 38 39 310 311 312 313 ; do
         build="cp${py}* pp${py}*"
-        if test $arch = s390x ;
-        then
+        if test $arch = s390x ; then
             # disable pp
             build="cp$py*manylinux*"
             # skip 3.11
             test $py = 311 && continue
+            test $py = 313 && continue
         fi
-        if test $arch = ppc64le ;
-        then
+        if test $arch = ppc64le ; then
             # skip 3.9
             test $py = 39 && continue
+            test $py = 311 && continue
         fi
+	if test $arch = aarch64 ; then
+	    test $py = 313 && continue
+	fi
 
         cat <<EOF
           - name: "linux $arch $py"
