@@ -8,21 +8,35 @@ jobs:
     name: Build wheels on ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
 EOF
-for arch in aarch64 ppc64le s390x x86_64 i686; do
-    for py in 36 37 38 39 310 311 312 ; do
-        build="cp${py}* pp${py}*"
-        test $arch = s390x && build="cp$py*manylinux*"
-        cat <<EOF
+archpy=""
+# s390x ppc64le aarch64 are mostly broken, only list working ones
+for arch in x86_64 i686 ; do
+    for py in 36 37 38 39 310 311 312 313 ; do
+	archpy="$archpy $arch-$py"
+    done
+done
+archpy="$archpy aarch64-311 aarch64-312"
+for ap in $archpy
+do
+    arch=${ap%-*}
+    py=${ap#*-}
+    build="cp${py}* pp${py}*"
+    if test $arch = s390x ; then
+        # disable pp
+        build="cp$py*manylinux*"
+    fi
+
+    cat <<EOF
           - name: "linux $arch $py"
             os: ubuntu-latest
             arch: $arch
             build: "$build"
             pyversion: $py
 EOF
-    done
 done
 cat <<'EOF'
           - name: windoof
@@ -45,10 +59,10 @@ cat <<'EOF'
           platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.19.2
+        uses: pypa/cibuildwheel@v2.22.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64 pp39*linux_i686 pp31?*linux_i686"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac* pp38-*linux*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
