@@ -58,6 +58,7 @@ cat <<'EOF'
           CIBW_BUILD: ${{ matrix.config.build }}
           CIBW_SKIP: "pp*-win_amd64"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
+          CIBW_ENABLE: cpython-freethreading
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
         #   package-dir: .
