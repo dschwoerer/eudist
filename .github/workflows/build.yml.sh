@@ -8,16 +8,9 @@ jobs:
     name: Build wheels on ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
-          - name: "linux x86"
-            os: ubuntu-latest
-            arch: x86_64
-            build: "*"
-          - name: "linux x32"
-            os: ubuntu-latest
-            arch: i686
-            build: "*"
 EOF
 for arch in aarch64 ppc64le s390x ; do
     for py in 38 39 310 311 312 313 314 ; do
@@ -56,7 +49,7 @@ cat <<'EOF'
         uses: pypa/cibuildwheel@v3.1.4
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac* pp38-*linux*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
