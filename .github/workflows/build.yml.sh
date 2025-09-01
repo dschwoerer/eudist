@@ -21,7 +21,7 @@ jobs:
 EOF
 for arch in aarch64 ppc64le s390x ; do
     for py in 38 39 310 311 312 313 314 ; do
-        build="cp${py}* pp${py}*"
+        build="cp${py}*"
         test $arch = s390x && build="cp$py*manylinux*"
         cat <<EOF
           - name: "linux $arch $py"

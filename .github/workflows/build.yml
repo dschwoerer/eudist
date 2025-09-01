@@ -20,72 +20,72 @@ jobs:
           - name: "linux aarch64 38"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp38* pp38*"
+            build: "cp38*"
             pyversion: 38
           - name: "linux aarch64 39"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp39* pp39*"
+            build: "cp39*"
             pyversion: 39
           - name: "linux aarch64 310"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp310* pp310*"
+            build: "cp310*"
             pyversion: 310
           - name: "linux aarch64 311"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp311* pp311*"
+            build: "cp311*"
             pyversion: 311
           - name: "linux aarch64 312"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp312* pp312*"
+            build: "cp312*"
             pyversion: 312
           - name: "linux aarch64 313"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp313* pp313*"
+            build: "cp313*"
             pyversion: 313
           - name: "linux aarch64 314"
             os: ubuntu-latest
             arch: aarch64
-            build: "cp314* pp314*"
+            build: "cp314*"
             pyversion: 314
           - name: "linux ppc64le 38"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp38* pp38*"
+            build: "cp38*"
             pyversion: 38
           - name: "linux ppc64le 39"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp39* pp39*"
+            build: "cp39*"
             pyversion: 39
           - name: "linux ppc64le 310"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp310* pp310*"
+            build: "cp310*"
             pyversion: 310
           - name: "linux ppc64le 311"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp311* pp311*"
+            build: "cp311*"
             pyversion: 311
           - name: "linux ppc64le 312"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp312* pp312*"
+            build: "cp312*"
             pyversion: 312
           - name: "linux ppc64le 313"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp313* pp313*"
+            build: "cp313*"
             pyversion: 313
           - name: "linux ppc64le 314"
             os: ubuntu-latest
             arch: ppc64le
-            build: "cp314* pp314*"
+            build: "cp314*"
             pyversion: 314
           - name: "linux s390x 38"
             os: ubuntu-latest
