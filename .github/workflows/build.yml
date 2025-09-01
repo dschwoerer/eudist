@@ -17,16 +17,6 @@ jobs:
             os: ubuntu-latest
             arch: i686
             build: "*"
-          - name: "linux aarch64 36"
-            os: ubuntu-latest
-            arch: aarch64
-            build: "cp36* pp36*"
-            pyversion: 36
-          - name: "linux aarch64 37"
-            os: ubuntu-latest
-            arch: aarch64
-            build: "cp37* pp37*"
-            pyversion: 37
           - name: "linux aarch64 38"
             os: ubuntu-latest
             arch: aarch64
@@ -52,16 +42,16 @@ jobs:
             arch: aarch64
             build: "cp312* pp312*"
             pyversion: 312
-          - name: "linux ppc64le 36"
+          - name: "linux aarch64 313"
             os: ubuntu-latest
-            arch: ppc64le
-            build: "cp36* pp36*"
-            pyversion: 36
-          - name: "linux ppc64le 37"
+            arch: aarch64
+            build: "cp313* pp313*"
+            pyversion: 313
+          - name: "linux aarch64 314"
             os: ubuntu-latest
-            arch: ppc64le
-            build: "cp37* pp37*"
-            pyversion: 37
+            arch: aarch64
+            build: "cp314* pp314*"
+            pyversion: 314
           - name: "linux ppc64le 38"
             os: ubuntu-latest
             arch: ppc64le
@@ -87,16 +77,16 @@ jobs:
             arch: ppc64le
             build: "cp312* pp312*"
             pyversion: 312
-          - name: "linux s390x 36"
+          - name: "linux ppc64le 313"
             os: ubuntu-latest
-            arch: s390x
-            build: "cp36*manylinux*"
-            pyversion: 36
-          - name: "linux s390x 37"
+            arch: ppc64le
+            build: "cp313* pp313*"
+            pyversion: 313
+          - name: "linux ppc64le 314"
             os: ubuntu-latest
-            arch: s390x
-            build: "cp37*manylinux*"
-            pyversion: 37
+            arch: ppc64le
+            build: "cp314* pp314*"
+            pyversion: 314
           - name: "linux s390x 38"
             os: ubuntu-latest
             arch: s390x
@@ -122,6 +112,16 @@ jobs:
             arch: s390x
             build: "cp312*manylinux*"
             pyversion: 312
+          - name: "linux s390x 313"
+            os: ubuntu-latest
+            arch: s390x
+            build: "cp313*manylinux*"
+            pyversion: 313
+          - name: "linux s390x 314"
+            os: ubuntu-latest
+            arch: s390x
+            build: "cp314*manylinux*"
+            pyversion: 314
           - name: windoof
             os: windows-latest
             build: "*"

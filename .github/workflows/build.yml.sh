@@ -20,7 +20,7 @@ jobs:
             build: "*"
 EOF
 for arch in aarch64 ppc64le s390x ; do
-    for py in 36 37 38 39 310 311 312 ; do
+    for py in 38 39 310 311 312 313 314 ; do
         build="cp${py}* pp${py}*"
         test $arch = s390x && build="cp$py*manylinux*"
         cat <<EOF
@@ -53,7 +53,7 @@ cat <<'EOF'
           platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.17.0
+        uses: pypa/cibuildwheel@v2.18.1
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
           CIBW_SKIP: "pp*-win_amd64"
