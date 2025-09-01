@@ -122,6 +122,41 @@ jobs:
             arch: s390x
             build: "cp314*manylinux*"
             pyversion: 314
+          - name: "linux riscv64 38"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp38*"
+            pyversion: 38
+          - name: "linux riscv64 39"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp39*"
+            pyversion: 39
+          - name: "linux riscv64 310"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp310*"
+            pyversion: 310
+          - name: "linux riscv64 311"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp311*"
+            pyversion: 311
+          - name: "linux riscv64 312"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp312*"
+            pyversion: 312
+          - name: "linux riscv64 313"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp313*"
+            pyversion: 313
+          - name: "linux riscv64 314"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp314*"
+            pyversion: 314
           - name: windoof
             os: windows-latest
             build: "*"
