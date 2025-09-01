@@ -1,5 +1,4 @@
 numpy
 cython
 pytest
-setuptools_scm_git_archive
 setuptools_scm
