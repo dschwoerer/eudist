@@ -57,8 +57,7 @@ setup(
     ),
     setup_requires=[
         "setuptools>=42",
-        "setuptools_scm[toml]>=3.4",
-        "setuptools_scm_git_archive",
+        "setuptools_scm[toml]>=7",
         "numpy",
         "cython",
     ],
