@@ -30,10 +30,10 @@ cat <<'EOF'
             os: windows-latest
             build: "*"
           - name: mac intel
-            os: macos-13
+            os: macos-15-intel
             build: "*"
           - name: mac arm
-            os: macos-14
+            os: macos-15
             build: "*"
 
     steps:

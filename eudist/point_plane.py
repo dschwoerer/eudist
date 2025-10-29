@@ -70,7 +70,7 @@ def dist_dot_dot(p0, p1):
 def dist_line_segment_dot(line, dot):
     """
     Calculate the distance between the line segment defined by two
-    points in line and a dot. 
+    points in line and a dot.
     """
     v = line[1] - line[0]
     w = dot - line[0]
@@ -91,7 +91,7 @@ def dist_line_segment_dot(line, dot):
 def winding_number(points, dot):
     """
     Calculate winding number.
-    
+
     Based on https://geomalgorithms.com/a03-_inclusion.html
     by softSurfer and Dan Sunday
     """
