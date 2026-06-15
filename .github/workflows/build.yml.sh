@@ -13,7 +13,7 @@ jobs:
         config:
 EOF
 for arch in aarch64 ppc64le s390x riscv64 ; do
-    for py in 38 39 310 311 312 313 314 ; do
+    for py in 39 310 311 312 313 314 315 ; do
         build="cp${py}*"
         test $arch = s390x && build="cp$py*manylinux*"
         cat <<EOF
@@ -37,19 +37,19 @@ cat <<'EOF'
             build: "*"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up QEMU
         if: ${{ contains(matrix.config.name, 'linux') }}
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.1.4
+        uses: pypa/cibuildwheel@v4.1.0
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac* pp38-*linux*"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           CIBW_ENABLE: cpython-freethreading
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
@@ -58,7 +58,7 @@ cat <<'EOF'
         #   output-dir: wheelhouse
         #   config-file: "{package}/pyproject.toml"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: "dist-${{ matrix.config.os }}-${{ matrix.config.arch }}-${{ matrix.config.pyversion }}"
           path: ./wheelhouse/*.whl
@@ -68,7 +68,7 @@ cat <<'EOF'
     name: Make SDist
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 100  # Optional, use if you use setuptools_scm
         submodules: true  # Optional, use if you have submodules
@@ -76,7 +76,7 @@ cat <<'EOF'
     - name: Build SDist
       run: pipx run build --sdist
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: dist-sdist
         path: dist/*.tar.gz
@@ -90,7 +90,7 @@ cat <<'EOF'
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         path: dist
         pattern: dist-*
