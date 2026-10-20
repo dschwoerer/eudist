@@ -10,11 +10,6 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - name: "linux aarch64 38"
-            os: ubuntu-latest
-            arch: aarch64
-            build: "cp38*"
-            pyversion: 38
           - name: "linux aarch64 39"
             os: ubuntu-latest
             arch: aarch64
@@ -45,11 +40,11 @@ jobs:
             arch: aarch64
             build: "cp314*"
             pyversion: 314
-          - name: "linux ppc64le 38"
+          - name: "linux aarch64 315"
             os: ubuntu-latest
-            arch: ppc64le
-            build: "cp38*"
-            pyversion: 38
+            arch: aarch64
+            build: "cp315*"
+            pyversion: 315
           - name: "linux ppc64le 39"
             os: ubuntu-latest
             arch: ppc64le
@@ -80,11 +75,11 @@ jobs:
             arch: ppc64le
             build: "cp314*"
             pyversion: 314
-          - name: "linux s390x 38"
+          - name: "linux ppc64le 315"
             os: ubuntu-latest
-            arch: s390x
-            build: "cp38*manylinux*"
-            pyversion: 38
+            arch: ppc64le
+            build: "cp315*"
+            pyversion: 315
           - name: "linux s390x 39"
             os: ubuntu-latest
             arch: s390x
@@ -115,11 +110,11 @@ jobs:
             arch: s390x
             build: "cp314*manylinux*"
             pyversion: 314
-          - name: "linux riscv64 38"
+          - name: "linux s390x 315"
             os: ubuntu-latest
-            arch: riscv64
-            build: "cp38*"
-            pyversion: 38
+            arch: s390x
+            build: "cp315*manylinux*"
+            pyversion: 315
           - name: "linux riscv64 39"
             os: ubuntu-latest
             arch: riscv64
@@ -150,6 +145,11 @@ jobs:
             arch: riscv64
             build: "cp314*"
             pyversion: 314
+          - name: "linux riscv64 315"
+            os: ubuntu-latest
+            arch: riscv64
+            build: "cp315*"
+            pyversion: 315
           - name: windoof
             os: windows-latest
             build: "*"
@@ -170,10 +170,10 @@ jobs:
           platforms: ${{ matrix.config.arch }}
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v3.4.1
+        uses: pypa/cibuildwheel@v4.3.1
         env:
           CIBW_BUILD: ${{ matrix.config.build }}
-          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac* pp38-*linux*"
+          CIBW_SKIP: "pp*-win_amd64 pp39*linux* pp31?*linux_i686 pp*-mac*"
           CIBW_ARCHS_LINUX: "${{ matrix.config.arch }}"
           # CIBW_TEST_COMMAND: pip install pytest && pytest {package}
         # with:
